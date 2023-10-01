@@ -1,4 +1,4 @@
-{ configs, pkgs, ... }:
+{ lib, configs, pkgs, ... }:
 {
   programs = {
     waybar = {
