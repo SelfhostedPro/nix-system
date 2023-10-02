@@ -1,12 +1,23 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 {
+  # Feature Imports
+  imports = [
+    ../features/display/hyprland
+    ../features/dev
+
+    ./packages.nix
+  ];
+
+  # Non-Free Setup
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    # overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
       allowUnfreePredicate = (_: true);
     };
   };
+
+  # Flake Setup
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
@@ -14,6 +25,8 @@
       warn-dirty = false;
     };
   };
+
+  # Restart systemd
   systemd.user.startServices = "sd-switch";
   programs = {
     home-manager.enable = true;
@@ -24,4 +37,5 @@
     homeDirectory = "/home/user";
     stateVersion = "23.05";
   };
+  manual.manpages.enable = false;
 }

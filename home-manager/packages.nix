@@ -22,7 +22,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-  
+
   programs.vscode = {
     enable = true;
   };

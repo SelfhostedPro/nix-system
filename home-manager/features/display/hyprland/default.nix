@@ -1,7 +1,8 @@
-{ lib, configs, pkgs, ... }:
+{ lib, configs, pkgs, inputs, outputs, ... }:
 {
   imports = [
     ./waybar.nix
+    inputs.hyprland.homeManagerModules.default
   ];
   wayland.windowManager.hyprland = {
     enable = true;
