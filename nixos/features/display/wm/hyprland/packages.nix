@@ -1,14 +1,13 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    #hyprpaper
     #hyprland-protocols
-    #hyprpicker
-    wl-clipboard
-    wlr-randr
+    swww # Wallpaper
+    wl-clipboard # Clipboard
+    wlr-randr # xrandr alternative
     #xdg-utils
     #xdg-desktop-portal
-    wofi
+    wofi # launcher
     hyprland-share-picker
     qt6.qtwayland
     qt5.qtwayland
@@ -16,7 +15,7 @@
     libnotify
     waypipe
     wayvnc
-    libsForQt5.krdc
-    remmina
+    kitty
+    firefox-wayland
   ];
 }
