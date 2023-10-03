@@ -50,6 +50,7 @@
       vars = {
         # Variables Used In Flake
         user = "user";
+        macuser = "stephen";
         location = "$HOME/system";
         terminal = "kitty";
         editor = "nano";

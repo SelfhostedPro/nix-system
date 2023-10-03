@@ -14,9 +14,9 @@
 {
   imports = (import ./modules);
 
-  users.users.${vars.user} = {
+  users.users.${vars.macuser} = {
     # MacOS User
-    home = "/Users/${vars.user}";
+    home = "/Users/${vars.macuser}";
     shell = pkgs.zsh; # Default Shell
   };
 
@@ -77,11 +77,10 @@
       cleanup = "zap";
     };
     brews = [
-      "wireguard-tools"
+      "tailscale"
     ];
     casks = [
-      "moonlight"
-      "plex-media-player"
+      "discord"
     ];
   };
 
@@ -125,7 +124,7 @@
     stateVersion = 4;
   };
 
-  home-manager.users.${vars.user} = {
+  home-manager.users.${vars.macuser} = {
     home = {
       stateVersion = "23.05";
     };
