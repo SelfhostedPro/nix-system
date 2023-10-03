@@ -49,7 +49,7 @@
     let
       vars = {
         # Variables Used In Flake
-        user = "stephen";
+        user = "user";
         location = "$HOME/system";
         terminal = "kitty";
         editor = "nano";
