@@ -25,16 +25,14 @@
     hostName = "MacBook";
   };
 
-  skhd.enable = false; # Window Manager
-  yabai.enable = false; # Hotkeys
+  skhd.enable = true; # Window Manager
+  yabai.enable = true; # Hotkeys
 
-  fonts = {
-    # Fonts
+  fonts = {                               # Fonts
     fontDir.enable = true;
     fonts = with pkgs; [
       source-code-pro
       font-awesome
-      nerdfonts
     ];
   };
 
