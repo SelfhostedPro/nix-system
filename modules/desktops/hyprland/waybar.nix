@@ -1,4 +1,4 @@
-{ lib, configs, pkgs, ... }:
+{ lib, configs, pkgs, vars, ... }:
 {
   home-manager.users.${vars.user}.programs = {
     waybar = {

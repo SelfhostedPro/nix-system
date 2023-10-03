@@ -17,7 +17,7 @@ with host;
     };
   };
 
-  imports = [ ];
+  imports = [ ./greetd.nix ./waybar.nix ];
 
 
 
