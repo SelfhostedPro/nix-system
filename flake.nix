@@ -1,65 +1,83 @@
 {
-  description = "Your new nix config";
+  description = "Nix, NixOS and Nix Darwin System Flake Configuration";
 
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
-    # hardware.url = "github:nixos/nixos-hardware";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-
     # Home manager
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    darwin = {
+      url = "github:lnl7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+    emacs-overlay = {
+      # Emacs Overlays
+      url = "github:nix-community/emacs-overlay";
+      flake = false;
+    };
+    nixgl = {
+      # Fixes OpenGL With Other Distros.
+      url = "github:guibou/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    doom-emacs = {
+      # Nix-Community Doom Emacs
+      url = "github:nix-community/nix-doom-emacs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.emacs-overlay.follows = "emacs-overlay";
+    };
+    hyprland = {
+      # Official Hyprland Flake
+      url = "github:hyprwm/Hyprland"; # Requires "hyprland.nixosModules.default" to be added the host modules
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    plasma-manager = {
+      # KDE Plasma User Settings Generator
+      url = "github:pjones/plasma-manager"; # Requires "inputs.plasma-manager.homeManagerModules.plasma-manager" to be added to the home-manager.users.${user}.imports
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "nixpkgs";
+    };
   };
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }:
     let
-      inherit (self) outputs;
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
-
-      # forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-      # pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-      #   inherit system;
-      #   config.allowUnfree = true;
-      # });
+      vars = {
+        # Variables Used In Flake
+        user = "stephen";
+        location = "$HOME/system";
+        terminal = "kitty";
+        editor = "nano";
+      };
     in
     {
-      # nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./home-manager/modules;
-      # templates = import ./templates;
+      nixosConfigurations = (
+        # NixOS Configurations
+        import ./hosts {
+          inherit (nixpkgs) lib;
+          inherit inputs nixpkgs nixpkgs-unstable home-manager nur doom-emacs hyprland plasma-manager vars; # Inherit inputs
+        }
+      );
 
-      # overlays = import ./overlays { inherit inputs outputs; };
+      darwinConfigurations = (
+        # Darwin Configurations
+        import ./darwin {
+          inherit (nixpkgs) lib;
+          inherit inputs nixpkgs nixpkgs-unstable home-manager darwin vars;
+        }
+      );
 
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
-
-      nixosConfigurations = {
-        # Main desktop
-        base = nixpkgs.lib.nixosSystem {
-          modules = [ ./nixos/configuration.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-      };
-
-      homeConfigurations = {
-        # Desktops
-        "user" = home-manager.lib.homeManagerConfiguration {
-          modules = [ ./home-manager/home.nix ];
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-        };
-      };
+      homeConfigurations = (
+        # Nix Configurations
+        import ./nix {
+          inherit (nixpkgs) lib;
+          inherit inputs nixpkgs nixpkgs-unstable home-manager nixgl vars;
+        }
+      );
     };
 }

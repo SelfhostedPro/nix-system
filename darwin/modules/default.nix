@@ -1,0 +1,4 @@
+[
+  ./skhd.nix
+  ./yabai.nix
+]
