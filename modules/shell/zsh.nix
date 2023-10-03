@@ -12,8 +12,7 @@
       syntaxHighlighting.enable = true;
       enableCompletion = true;
       shellAliases = {
-        update = "sudo nixos-rebuild switch --flake ~/system/#base";
-        hupdate = "home-manager switch --flake ~/system/#user";
+        update = "sudo nixos-rebuild build --flake ~/system/#base";
         waybarr = "systemctl restart --user waybar";
       };
     };
