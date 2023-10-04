@@ -14,7 +14,11 @@
       package = pkgs.vscodium;
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
+        tyriar.sort-lines
       ];
+      userSettings = {
+        "editor.fontFamily"= "SauceCodePro Nerd Font Mono";
+      };
     };
 
     programs.git = {
