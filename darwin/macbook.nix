@@ -28,7 +28,8 @@
   skhd.enable = true; # Window Manager
   yabai.enable = true; # Hotkeys
 
-  fonts = {                               # Fonts
+  fonts = {
+    # Fonts
     fontDir.enable = true;
     fonts = with pkgs; [
       source-code-pro
@@ -50,6 +51,8 @@
       git
       pfetch
       ranger
+      nixpkgs-fmt
+      alejandra
 
       # Doom Emacs
       emacs
@@ -60,10 +63,20 @@
 
   programs = {
     zsh.enable = true; # Shell
+    zsh.interactiveShellInit = ''
+      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+    '';
   };
 
   services = {
     nix-daemon.enable = true; # Auto-Upgrade Daemon
+    spacebar.enable = true;
+    spacebar.package = pkgs.spacebar;
+    spacebar.config = {
+      clock_format = "%R";
+      background_color = "0xff202020";
+      foreground_color = "0xffa8a8a8";
+    };
   };
 
   homebrew = {
@@ -134,7 +147,11 @@
         enableAutosuggestions = true;
         enableSyntaxHighlighting = true;
         history.size = 10000;
+        shellAliases = {
+          update = "darwin-rebuild switch --flake ~/system/#macbook";
+        };
       };
+      nix-index.enable = true;
       neovim = {
         enable = true;
         viAlias = true;
