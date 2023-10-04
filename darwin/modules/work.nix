@@ -1,5 +1,5 @@
-{config, pkgs, ...}: {
-   homebrew = {
+{ config, pkgs, ... }: {
+  homebrew = {
     brews = [
       "aws-vault"
       "awscli"
