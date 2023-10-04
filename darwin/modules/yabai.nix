@@ -2,11 +2,13 @@
 #  Tiling Window Manager for MacOS
 #  Enable with "yabai.enable = true;"
 #
-
-{ config, lib, pkgs, ... }:
-
-with lib;
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   options.yabai = {
     enable = mkOption {
       type = types.bool;

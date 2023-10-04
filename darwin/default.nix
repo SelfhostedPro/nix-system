@@ -6,16 +6,20 @@
 #       ├─ default.nix *
 #       └─ <host>.nix
 #
-
-{ lib, inputs, nixpkgs, darwin, home-manager, vars, ... }:
-
-let
-  system = "aarch64-darwin"; # System Architecture
-in
 {
+  lib,
+  inputs,
+  nixpkgs,
+  darwin,
+  home-manager,
+  vars,
+  ...
+}: let
+  system = "aarch64-darwin"; # System Architecture
+in {
   macbook = darwin.lib.darwinSystem {
     inherit system;
-    specialArgs = { inherit inputs vars; };
+    specialArgs = {inherit inputs vars;};
     modules = [
       # Modules Used
       ./macbook.nix

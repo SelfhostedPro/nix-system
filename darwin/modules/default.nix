@@ -3,4 +3,5 @@
   ./skhd.nix
   ./yabai.nix
   ./work.nix
+  ./virtualisation.nix
 ]

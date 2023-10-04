@@ -2,11 +2,13 @@
 #  Hotkey Daemon
 #  Enable with "skhd.enable = true;"
 #
-
-{ config, lib, pkgs, ... }:
-
-with lib;
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   options.skhd = {
     enable = mkOption {
       type = types.bool;

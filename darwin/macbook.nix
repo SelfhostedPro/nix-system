@@ -8,11 +8,13 @@
 #       └─ ./modules
 #           └─ default.nix
 #
-
-{ config, pkgs, vars, ... }:
-
 {
-  imports = (import ./modules);
+  config,
+  pkgs,
+  vars,
+  ...
+}: {
+  imports = import ./modules;
 
   users.users.${vars.macuser} = {
     # MacOS User
@@ -38,7 +40,7 @@
   };
 
   environment = {
-    shells = with pkgs; [ zsh ]; # Default Shell
+    shells = with pkgs; [zsh]; # Default Shell
     variables = {
       # Environment Variables
       EDITOR = "${vars.editor}";
