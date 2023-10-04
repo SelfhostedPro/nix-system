@@ -15,8 +15,9 @@
       efi.canTouchEfiVariables = true;
       timeout = 2;
     };
+    kernelParams = [ "nvidia-drm.modeset=1" ];
     blacklistedKernelModules = [ "nouveau" ];
-    initrd.kernelModules = [ "nvidia" ];
+    initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
     extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   };
   hardware = {

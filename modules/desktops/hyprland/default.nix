@@ -53,6 +53,7 @@ with host;
           __GLX_VENDOR_LIBRARY_NAME = "nvidia";
         };
       systemPackages = with pkgs; [
+        neatvnc
         kitty
         qt5.qtwayland
         qt6.qtwayland
@@ -82,6 +83,9 @@ with host;
           monitor=,preferred,auto,auto
           # Network manager applet
           exec-once = nm-applet --indicator
+          exec-once = swww init
+
+          exec-once = swww img ~/.config/nixpapers/dracula.png
       
           # Execute your favorite apps at launch
           exec-once = hyprpaper & firefox
@@ -167,7 +171,7 @@ with host;
 
           # Launcher Shortcuts
           bind = $mod, T, exec, kitty
-          bind = $mod, C, exec, killactive,
+          bind = $mod, C, killactive,
           bind = $mod, R, exec, rofi -show drun -show-icons
           bind = $altmod, R, exec, rofi -show run -show-icons
           bind = $mod, V, togglefloating,
@@ -178,6 +182,8 @@ with host;
           # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
           bind = SUPER_SHIFT, left, movewindow, l 
           bind = SUPER_SHIFT, right, movewindow, r
+          bind = SUPER_SHIFT, up, movewindow, u
+          bind = SUPER_SHIFT, down, movewindow, d
 
           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
           ${builtins.concatStringsSep "" (builtins.genList (
@@ -187,8 +193,8 @@ with host;
                 in
                   builtins.toString (x + 1 - (c * 10));
               in ''
-                bind = $mod, ${ws}, workspace, ${toString (x + 1)}
-                bind = $mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                  bind = $mod, ${ws}, workspace, ${toString (x + 1)}
+                  bind = $mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
               ''
             )
             10)}
@@ -200,8 +206,12 @@ with host;
           # ...
         '';
       };
+      home.file.".config/nixpapers" = {
+        recursive = true;
+        source = ../resources/images/nixpapers;
+      };
       programs.swaylock.settings = {
-        #image = "$HOME/.config/wall";
+        image = "$HOME/.config/nixpapers/gear.png";
         color = "000000f0";
         font-size = "24";
         indicator-idle-visible = false;
