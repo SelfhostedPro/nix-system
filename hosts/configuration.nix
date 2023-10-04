@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, vars, ... }:
 
 {
-  imports = (import ../modules/desktops ++
+  imports = [ ../modules/programs  ../modules/services ] ++ (import ../modules/desktops ++
     import ../modules/dev ++
     import ../modules/shell);
 
@@ -42,88 +42,6 @@
       EDITOR = "${vars.editor}";
       VISUAL = "${vars.editor}";
     };
-    systemPackages = with pkgs; [
-      # System-Wide Packages
-      # Terminal
-      btop # Resource Manager
-      coreutils # GNU Utilities
-      git # Version Control
-      killall # Process Killer
-      nano # Text Editor
-      pciutils # Manage PCI
-      tldr # Helper
-      usbutils # Manage USB
-      wget # Retriever
-      nixpkgs-fmt
-      nano
-      python3
-      psmisc
-      pciutils
-
-      # Video/Audio
-      alsa-utils # Audio Control
-      pavucontrol # Audio Control
-      pipewire # Audio Server/Control
-      pulseaudio # Audio Server/Control
-      wireplumber
-
-      # Apps
-      appimage-run # Runs AppImages on NixOS
-      firefox # Browser
-      firefox-wayland # Browser
-      google-chrome # Browser
-
-      # File Management
-      gnome.file-roller # Archive Manager
-      okular # PDF Viewer
-      pcmanfm # File Browser
-      p7zip # Zip Encryption
-      unzip # Zip Files
-      unrar # Rar Files
-      zip # Zip
-
-      # Other Packages Found @
-      # - ./<host>/default.nix
-      # - ../modules
-    ];
-  };
-
-  programs = {
-    dconf.enable = true;
-  };
-  sound.enable = true;
-
-  services = {
-    printing = {
-      # CUPS
-      enable = true;
-    };
-    mpd = {
-      enable = true;
-      startWhenNeeded = true;
-      extraConfig = ''
-        audio_output {
-          type "pipewire"
-          name "My PipeWire Output"
-        }
-      '';
-    };
-    pipewire = {
-      # Sound
-      enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-      jack.enable = true;
-    };
-
-    openssh = {
-      # SSH
-      enable = true;
-      allowSFTP = true; # SFTP
-    };
   };
 
   nix = {
@@ -156,11 +74,10 @@
     stateVersion = "23.05";
   };
 
+
+  # Home-Manager Config
   home-manager.users.${vars.user} = {
     systemd.user.startServices = "sd-switch";
-    programs.git.enable = true;
-
-    # Home-Manager Settings
     home = {
       stateVersion = "23.05";
       username = "${vars.user}";
@@ -169,6 +86,5 @@
     programs = {
       home-manager.enable = true;
     };
-
   };
 }
