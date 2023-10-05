@@ -162,6 +162,9 @@
         "browser.startup.homepage" = "https://search.nixos.org";
         "browser.vpn_promo.enabled" = false;
         "browser.shell.checkDefaultBrowser" = false;
+        "media.ffmpeg.vaapi.enabled" = true; #https://github.com/elFarto/nvidia-vaapi-driver#firefox
+        "media.rdd-ffmpeg.enabled" = true; # ^^
+        "gfx.webrender.all" = true;
       };
     };
   };

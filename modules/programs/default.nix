@@ -1,6 +1,13 @@
 { config, lib, pkgs, inputs, vars, ... }:
+let
+  brave = pkgs.brave.override { vulkanSupport = true; };
+in
 {
   imports = [ ./firefox.nix ];
+
+  # Configure what apps open by default
+  xdg.mime.defaultApplications = { };
+
 
   # Utility Packages
   environment.systemPackages = with pkgs; [
@@ -20,6 +27,12 @@
     python3
     psmisc
     pciutils
+    nix-index
+
+    gnome.gnome-remote-desktop
+    gnome.gnome-keyring
+    gnome.seahorse
+    remmina
 
     # Video/Audio
     alsa-utils # Audio Control
@@ -32,6 +45,7 @@
     unzip # Zip Files
     unrar # Rar Files
     zip # Zip
+    xfce.thunar # GUI File Manager
 
     # Apps
     appimage-run # Runs AppImages on NixOS
@@ -43,17 +57,31 @@
     pcmanfm # File Browser
 
     opera
-    microsoft-edge
+    microsoft-edge-beta
+    brave
     w3m
+    webcord
   ];
 
 
   # Default Program Configs
   programs = {
     dconf.enable = true;
+    seahorse.enable = true;
   };
 
   home-manager.users.${vars.user} = {
+    # Default Applications by filetype.
+    xdg = {
+      mime.enable = true;
+      mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "x-scheme-handler/https" = "firefox.desktop";
+          "x-scheme-handler/http" = "firefox.desktop";
+        };
+      };
+    };
     programs = {
       git.enable = true;
       kitty = {

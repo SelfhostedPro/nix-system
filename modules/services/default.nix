@@ -3,10 +3,13 @@
 
   sound.enable = true;
   services = {
+    # Gnome Remote Desktop Settings
+    gnome.gnome-keyring.enable = true;
+    gnome.gnome-remote-desktop.enable = true;
     # CUPS
-    printing = {
-      enable = true;
-    };
+    # printing = {
+    #   enable = true;
+    # };
     # Sound
     mpd = {
       enable = true;

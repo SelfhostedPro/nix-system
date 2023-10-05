@@ -17,7 +17,11 @@ with host;
     };
   };
 
-  imports = [ ./greetd.nix ./waybar.nix ];
+  imports = [
+    ./greetd.nix
+    ./waybar.nix
+    # ./eww
+  ];
 
 
 
@@ -32,48 +36,37 @@ with host;
     };
 
     environment = {
-      variables = {
-        #WLR_RENDERER_ALLOW_SOFTWARE="1";
-        WLR_NO_HARDWARE_CURSORS = "1";
-        XDG_CURRENT_DESKTOP = "Hyprland";
-        XDG_SESSION_DESKTOP = "Hyprland";
-        XDG_SESSION_TYPE = "wayland";
-      };
-      sessionVariables =
-        {
-          GBM_BACKEND = "nvidia-drm";
-          GDK_BACKEND = "wayland";
-          LIBVA_DRIVER_NAME = "nvidia";
-          MOZ_ENABLE_WAYLAND = "1";
-          NIXOS_OZONE_WL = "1";
-          QT_QPA_PLATFORM = "wayland";
-          QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-          WLR_NO_HARDWARE_CURSORS = "1";
-          XDG_SESSION_TYPE = "wayland";
-          __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-        };
       systemPackages = with pkgs; [
         neatvnc
         kitty
         qt5.qtwayland
         qt6.qtwayland
-        swaylock # Lock Screen
+        # swaylock-effects # Lock Screen
+        # swayidle
         wlr-randr # Monitor Settings
       ];
     };
     home-manager.users.${vars.user} = { pkgs, ... }: {
       imports = [ hyprland.homeManagerModules.default ];
       home.packages = with pkgs; [
-        dunst
         grim # Grab Images
         hyprland-share-picker
         libnotify
         rofi-wayland
         slurp # Region Selector
         swappy # Snapshot Editor
+        swayidle
+        libnotify
+        fnott
+        dunst
+        swaylock-effects
         swww
         waybar
         wl-clipboard
+
+        # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
+        wayvnc
+        neatvnc
       ];
 
       wayland.windowManager.hyprland = {
@@ -84,11 +77,8 @@ with host;
           # Network manager applet
           exec-once = nm-applet --indicator
           exec-once = swww init
-
-          exec-once = swww img ~/.config/nixpapers/dracula.png
-      
           # Execute your favorite apps at launch
-          exec-once = hyprpaper & firefox
+          exec-once = swww img ~/.config/nixpapers/dracula.png hyprpaper & firefox & slack
 
           # Some default env vars.
           env = XCURSOR_SIZE,24
@@ -202,6 +192,7 @@ with host;
           # Move/resize windows with mainMod + LMB/RMB and dragging
           bindm = $mod, mouse:272, movewindow
           bindm = $mod, mouse:273, resizewindow
+          bind = $mod, mouse:274, togglefloating,
 
           # ...
         '';
@@ -210,48 +201,27 @@ with host;
         recursive = true;
         source = ../resources/images/nixpapers;
       };
-      programs.swaylock.settings = {
-        image = "$HOME/.config/nixpapers/gear.png";
-        color = "000000f0";
-        font-size = "24";
-        indicator-idle-visible = false;
-        indicator-radius = 100;
-        indicator-thickness = 20;
-        inside-color = "00000000";
-        inside-clear-color = "00000000";
-        inside-ver-color = "00000000";
-        inside-wrong-color = "00000000";
-        key-hl-color = "79b360";
-        line-color = "000000f0";
-        line-clear-color = "000000f0";
-        line-ver-color = "000000f0";
-        line-wrong-color = "000000f0";
-        ring-color = "ffffff50";
-        ring-clear-color = "bbbbbb50";
-        ring-ver-color = "bbbbbb50";
-        ring-wrong-color = "b3606050";
-        text-color = "ffffff";
-        text-ver-color = "ffffff";
-        text-wrong-color = "ffffff";
-        show-failed-attempts = true;
-      };
-      services.swayidle = {
-        enable = true;
-        events = [
-          { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -f"; }
-          { event = "lock"; command = "lock"; }
-        ];
-        timeouts = [
-          { timeout = 300; command = "${pkgs.swaylock}/bin/swaylock -f"; }
-        ];
-        systemdTarget = "hyprland-session.target";
+      services = {
+        fnott.enable = true;
+        swayidle = {
+          enable = true;
+          events = [
+            { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock --screenshots --clock --indicator --ignore-empty-password --show-failed-attempts --indicator-caps-lock --indicator-radius 100 --indicator-thickness 7  --effect-blur 8x4 --font-size 24"; }
+            { event = "lock"; command = "lock"; }
+          ];
+          timeouts = [
+            { timeout = 300; command = "${pkgs.swaylock}/bin/swaylock -f"; }
+          ];
+          systemdTarget = "hyprland-session.target";
+        };
       };
     };
-
-    xdg.portal = {
-      enable = true;
-      wlr.enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg = {
+      portal = {
+        enable = true;
+        wlr.enable = true;
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      };
     };
 
     security.pam.services.swaylock = {
@@ -271,7 +241,5 @@ with host;
       substituters = [ "https://hyprland.cachix.org" ];
       trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     }; # Cache
-
-
   };
 }
