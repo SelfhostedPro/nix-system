@@ -16,11 +16,9 @@ with host;
       };
     };
   };
-
   imports = [
     ./greetd.nix
     ./waybar.nix
-    # ./eww
   ];
 
 
@@ -46,13 +44,14 @@ with host;
         wlr-randr # Monitor Settings
       ];
     };
-    home-manager.users.${vars.user} = { pkgs, ... }: {
+    home-manager.users.${vars.user} = { pkgs, unstable, ... }: {
       imports = [ hyprland.homeManagerModules.default ];
       home.packages = with pkgs; [
         grim # Grab Images
         hyprland-share-picker
+        wayland-protocols
+        libinput
         libnotify
-        rofi-wayland
         slurp # Region Selector
         swappy # Snapshot Editor
         swayidle
@@ -61,9 +60,7 @@ with host;
         dunst
         swaylock-effects
         swww
-        waybar
         wl-clipboard
-
         # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
         wayvnc
         neatvnc

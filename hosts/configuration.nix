@@ -8,8 +8,9 @@
   users.users.${vars.user} = {
     # System User
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "inpout" "audio" "camera" "networkmanager" "lp" "kvm" "libvirtd" ];
+    extraGroups = [ "wheel" "video" "input" "audio" "camera" "networkmanager" "lp" "kvm" "libvirtd" ];
   };
+  users.groups.input.gid = 174;
 
   time.timeZone = "America/Los_Angeles"; # Time zone and Internationalisation
 

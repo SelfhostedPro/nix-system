@@ -228,6 +228,27 @@
         "type": "github"
       }
     },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "gross",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1690933134,
+        "narHash": "sha256-ab989mN63fQZBFrkk4Q8bYxQCktuHmBIBqUG1jl6/FQ=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "59cf3f1447cfc75087e7273b04b31e689a8599fb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -275,6 +296,27 @@
         "owner": "lassik",
         "repo": "emacs-format-all-the-code",
         "rev": "47d862d40a088ca089c92cd393c6dca4628f87d3",
+        "type": "github"
+      }
+    },
+    "gross": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1694261454,
+        "narHash": "sha256-6Z4Wb6qUfRRYiSyk6NDgcSBAfxkkPFqmNV/f9a11FEY=",
+        "owner": "fufexan",
+        "repo": "gross",
+        "rev": "40e2e11ed7df5be380d8f62f639b8534ecae133e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fufexan",
+        "repo": "gross",
         "type": "github"
       }
     },
@@ -572,6 +614,7 @@
         "darwin": "darwin",
         "doom-emacs": "doom-emacs",
         "emacs-overlay": "emacs-overlay",
+        "gross": "gross",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "nixgl": "nixgl",

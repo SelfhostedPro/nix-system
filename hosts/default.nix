@@ -1,4 +1,4 @@
-{ lib, inputs, nixpkgs, nixpkgs-unstable, home-manager, nur, doom-emacs, hyprland, plasma-manager, vars, ... }:
+{ lib, inputs, nixpkgs, nixpkgs-unstable, gross, home-manager, nur, doom-emacs, hyprland, plasma-manager, vars, ... }:
 let
   system = "x86_64-linux"; # System Architecture
 
@@ -20,7 +20,7 @@ in
     inherit system;
     specialArgs = {
       # Pass Flake Variable
-      inherit inputs system unstable hyprland vars;
+      inherit inputs system unstable hyprland gross vars;
       host = {
         hostName = "nix-desktop";
       };
@@ -31,12 +31,16 @@ in
       ./desktop
       ./configuration.nix
 
+
+
       home-manager.nixosModules.home-manager
       {
         # Home-Manager Module
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
+        home-manager.extraSpecialArgs = { inherit unstable; };
         home-manager.backupFileExtension = "bak";
+
       }
     ];
   };

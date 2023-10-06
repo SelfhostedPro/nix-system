@@ -25,6 +25,7 @@
           update = "noglob sudo nixos-rebuild switch --flake ~/system/#base";
           cleanboot = "sudo nix-collect-garbage --delete-older-than 5d && nix-env -p /nix/var/nix/profiles/system --delete-generations +2";
           waybarr = "systemctl restart --user waybar";
+          whichs = "f() { which {print \$1} | xargs stat }";
         };
         prezto = {
           enable = true;

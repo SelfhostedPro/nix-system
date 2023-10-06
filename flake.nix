@@ -44,8 +44,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "nixpkgs";
     };
+    gross = {
+      url = "github:fufexan/gross";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, plasma-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, home-manager, darwin, nur, nixgl, doom-emacs, hyprland, gross, plasma-manager, ... }:
     let
       vars = {
         # Variables Used In Flake
@@ -61,7 +65,7 @@
         # NixOS Configurations
         import ./hosts {
           inherit (nixpkgs) lib;
-          inherit inputs nixpkgs nixpkgs-unstable home-manager nur doom-emacs hyprland plasma-manager vars; # Inherit inputs
+          inherit inputs nixpkgs nixpkgs-unstable home-manager nur doom-emacs hyprland gross plasma-manager vars; # Inherit inputs
         }
       );
 
