@@ -1,14 +1,9 @@
 { config, pkgs, vars, ... }:
 {
-
   home-manager.users.${vars.user} = { pkgs, unstable, ... }: {
     home.packages = with pkgs; [
       # Rofi
       rofi-wayland
-      rofi-rbw
-      rofi-top
-      rofi-systemd
-      rofi-power-menu
     ];
     programs = {
       rofi = {
@@ -44,7 +39,13 @@
       '';
     };
 
+    home.file.".config/rofi/off.sh" = {
+      executable = true;
+      text = ''
+        #!/usr/bin/env /run/current-system/sw/bin/bash
 
+      '';
+    };
 
     home.file.".config/rofi/launcher_theme.rasi".source = ./launcher_theme.rasi;
     home.file.".config/rofi/powermenu.sh".source = ./powermenu.sh;

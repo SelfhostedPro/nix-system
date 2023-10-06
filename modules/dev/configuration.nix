@@ -1,11 +1,28 @@
-{ configs, pkgs, vars, ... }: {
-
-
+{
+  configs,
+  pkgs,
+  vars,
+  unstable,
+  ...
+}: {
   home-manager.users.${vars.user} = {
+    pkgs,
+    unstable,
+    ...
+  }: {
+    home.packages = with pkgs; [
+      unstable.nixd
+      # Formatters
+      # nixpkgs-fmt
+      alejandra
+    ];
     # vs-code-server fixes
     imports = [
-      "${fetchTarball { url="https://github.com/msteen/nixos-vscode-server/tarball/master"; 
-      sha256="0sz8njfxn5bw89n6xhlzsbxkafb6qmnszj4qxy2w0hw2mgmjp829";}
+      "${
+        fetchTarball {
+          url = "https://github.com/msteen/nixos-vscode-server/tarball/master";
+          sha256 = "0sz8njfxn5bw89n6xhlzsbxkafb6qmnszj4qxy2w0hw2mgmjp829";
+        }
       }/modules/vscode-server/home.nix"
     ];
     services.vscode-server.enable = true;
@@ -15,9 +32,18 @@
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         tyriar.sort-lines
+        # kamadorueda.alejandra
       ];
       userSettings = {
-        "editor.fontFamily"= "SauceCodePro Nerd Font Mono";
+        "editor.fontFamily" = "SauceCodePro Nerd Font Mono";
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nixd";
+        "nix.serverSettings" = {
+          "nixd" = {
+            "formatting" = {"command" = "${pkgs.alejandra}/bin/alejandra";};
+            "options" = {"enable" = true;};
+          };
+        };
       };
     };
 

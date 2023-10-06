@@ -1,13 +1,17 @@
-{ config, lib, pkgs, inputs, vars, ... }:
-let
-  brave = pkgs.brave.override { vulkanSupport = true; };
-in
 {
-  imports = [ ./firefox.nix ];
+  config,
+  lib,
+  pkgs,
+  inputs,
+  vars,
+  ...
+}: let
+  brave = pkgs.brave.override {vulkanSupport = true;};
+in {
+  imports = [./firefox.nix];
 
   # Configure what apps open by default
-  xdg.mime.defaultApplications = { };
-
+  xdg.mime.defaultApplications = {};
 
   # Utility Packages
   environment.systemPackages = with pkgs; [
@@ -22,12 +26,16 @@ in
     tldr # Helper
     usbutils # Manage USB
     wget # Retriever
-    nixpkgs-fmt
+
     nano
     python3
     psmisc
     pciutils
     nix-index
+    discord # Messaging
+    networkmanagerapplet
+    spotify
+    slack
 
     gnome.gnome-remote-desktop
     gnome.gnome-keyring
@@ -45,6 +53,7 @@ in
     unzip # Zip Files
     unrar # Rar Files
     zip # Zip
+    ranger # CLI File Manager
     xfce.thunar # GUI File Manager
 
     # Apps
@@ -63,6 +72,19 @@ in
     webcord
   ];
 
+  nixpkgs.overlays = [
+    # Overlay pulls latest version of Discord
+    (self: super: {
+      discord = super.discord.overrideAttrs (
+        _: {
+          src = builtins.fetchTarball {
+            url = "https://discord.com/api/download?platform=linux&format=tar.gz";
+            sha256 = "0yzgkzb0200w9qigigmb84q4icnpm2hj4jg400payz7igxk95kqk";
+          };
+        }
+      );
+    })
+  ];
 
   # Default Program Configs
   programs = {

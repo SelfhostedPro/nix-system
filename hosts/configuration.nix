@@ -1,9 +1,10 @@
 { config, lib, pkgs, inputs, vars, ... }:
 
 {
-  imports = [ ../modules/programs  ../modules/services ] ++ (import ../modules/desktops ++
-    import ../modules/dev ++
-    import ../modules/shell);
+  imports = [ ../modules/programs ../modules/services ]
+    ++ (import ../modules/programs/desktop/wayland
+    ++ import ../modules/dev
+    ++ import ../modules/shell);
 
   users.users.${vars.user} = {
     # System User
@@ -13,8 +14,7 @@
   users.groups.input.gid = 174;
 
   time.timeZone = "America/Los_Angeles"; # Time zone and Internationalisation
-
-
+  
   i18n = {
     defaultLocale = "en_US.UTF-8";
   };

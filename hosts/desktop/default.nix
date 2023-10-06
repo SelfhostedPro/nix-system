@@ -1,8 +1,13 @@
 { config, pkgs, vars, ... }:
 {
-  imports = [ ./hardware-configuration.nix ./packages.nix ] ++ import (../../modules/graphics);
+  imports = [ ./hardware-configuration.nix ] ++ import (../../modules/graphics);
 
   hyprland.enable = true; # Window Manager
+
+  # desktop = {
+  #   hyprland.enable = true;
+  #   nvidia.enable = true;
+  # };
 
   boot = {
     loader = {

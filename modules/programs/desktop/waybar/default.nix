@@ -1,29 +1,6 @@
 { lib, configs, pkgs, unstable, vars, ... }:
-let
-  launcher = pkgs.writeShellScript "launcher.sh"
-    ''
-      ALPHA="#00000000"
-      BG="#3B4253"
-      FG="#BF616A"
-      SELECT="#343a46"
-      ACCENT="#3B4252"
-      ${pkgs.coreutils}/bin/cat > $dir/colors.rasi <<- EOF
-      	/* colors */
-
-      	* {
-      	  al:  $ALPHA;
-      	  bg:  $BG;
-      	  se:  $SELECT;
-      	  fg:  $FG;
-      	  ac:  $ACCENT;
-      	}
-      EOF
-      theme="$HOME/.config/rofi/launcher_theme.rasi"
-      ${pkgs.rofi-wayland}/bin/rofi -no-lazy-grab -show drun -modi drun -theme $finaltheme
-    '';
-in
 {
-  imports = [ ./rofi ];
+  programs.nm-applet.enable = true;
   home-manager.users.${vars.user} = {
     home.packages = with pkgs; [
       pavucontrol
@@ -181,7 +158,7 @@ in
     #   onChange = ''systemctl restart --user waybar'';
     # };
     home.file.".config/waybar/style.css" = {
-      source = ../configs/waybar.css;
+      source = ./configs/waybar.css;
       onChange = ''systemctl restart --user waybar'';
     };
   };

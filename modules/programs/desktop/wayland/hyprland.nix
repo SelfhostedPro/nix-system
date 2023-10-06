@@ -12,19 +12,19 @@ with host;
     hyprland = {
       enable = mkOption {
         type = types.bool;
-        default = false;
+        default = true;
       };
     };
   };
+
   imports = [
-    ./greetd.nix
-    ./waybar.nix
+    ../greetd.nix
+    ../waybar
+    ../rofi
+    ../swaylock
   ];
 
-
-
   config = mkIf (config.hyprland.enable) {
-    # wlwm.enable = true;
     programs = {
       hyprland = {
         enable = true;
@@ -39,8 +39,6 @@ with host;
         kitty
         qt5.qtwayland
         qt6.qtwayland
-        # swaylock-effects # Lock Screen
-        # swayidle
         wlr-randr # Monitor Settings
       ];
     };
@@ -54,11 +52,9 @@ with host;
         libnotify
         slurp # Region Selector
         swappy # Snapshot Editor
-        swayidle
         libnotify
         fnott
         dunst
-        swaylock-effects
         swww
         wl-clipboard
         # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
@@ -196,21 +192,10 @@ with host;
       };
       home.file.".config/nixpapers" = {
         recursive = true;
-        source = ../resources/images/nixpapers;
+        source = ./resources/images/nixpapers;
       };
       services = {
         fnott.enable = true;
-        swayidle = {
-          enable = true;
-          events = [
-            { event = "before-sleep"; command = "${pkgs.swaylock-effects}/bin/swaylock --screenshots --clock --indicator --ignore-empty-password --show-failed-attempts --indicator-caps-lock --indicator-radius 100 --indicator-thickness 7  --effect-blur 8x4 --font-size 24"; }
-            { event = "lock"; command = "lock"; }
-          ];
-          timeouts = [
-            { timeout = 300; command = "${pkgs.swaylock}/bin/swaylock -f"; }
-          ];
-          systemdTarget = "hyprland-session.target";
-        };
       };
     };
     xdg = {
@@ -220,13 +205,6 @@ with host;
         extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       };
     };
-
-    security.pam.services.swaylock = {
-      text = ''
-        auth include login
-      '';
-    };
-
     systemd.sleep.extraConfig = ''
       AllowSuspend=no
       AllowHibernation=no
