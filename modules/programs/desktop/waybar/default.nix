@@ -1,4 +1,4 @@
-{ lib, configs, pkgs, unstable, vars, ... }:
+{ lib, configs, pkgs, vars, ... }:
 {
   programs.nm-applet.enable = true;
   home-manager.users.${vars.user} = {
@@ -7,7 +7,7 @@
     ];
     programs = {
       waybar = {
-        package = unstable.waybar;
+        package = pkgs.unstable.waybar;
         systemd.enable = true;
         enable = true;
         settings = {

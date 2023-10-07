@@ -2,11 +2,16 @@
 #  Hyprland Configuration
 #  Enable with "hyprland.enable = true;"
 #
-
-{ config, lib, system, pkgs, unstable, hyprland, vars, host, ... }:
-
+{
+  config,
+  pkgs,
+  inputs,
+  outputs,
+  lib,
+  vars,
+  ...
+}:
 with lib;
-with host;
 {
   options = {
     hyprland = {
@@ -23,12 +28,16 @@ with host;
     ../rofi
     ../swaylock
   ];
+  # fonts.fonts = with pkgs; [
+  #   # Fonts
+  #   nerdfonts
+  # ];
 
   config = mkIf (config.hyprland.enable) {
     programs = {
       hyprland = {
         enable = true;
-        package = hyprland.packages.${pkgs.system}.hyprland;
+        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
         nvidiaPatches = true;
       };
     };
@@ -42,8 +51,8 @@ with host;
         wlr-randr # Monitor Settings
       ];
     };
-    home-manager.users.${vars.user} = { pkgs, unstable, ... }: {
-      imports = [ hyprland.homeManagerModules.default ];
+    home-manager.users.${vars.user} = {pkgs, ...}: {
+      imports = [ inputs.hyprland.homeManagerModules.default];
       home.packages = with pkgs; [
         grim # Grab Images
         hyprland-share-picker
@@ -154,7 +163,7 @@ with host;
 
           # Launcher Shortcuts
           bind = $mod, T, exec, kitty
-          bind = $mod, C, killactive,
+          bind = $mod, k, killactive,
           bind = $mod, R, exec, rofi -show drun -show-icons
           bind = $altmod, R, exec, rofi -show run -show-icons
           bind = $mod, V, togglefloating,
@@ -163,7 +172,7 @@ with host;
           # workspaces
 
           # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
-          bind = SUPER_SHIFT, left, movewindow, l 
+          bind = SUPER_SHIFT, left, movewindow, l
           bind = SUPER_SHIFT, right, movewindow, r
           bind = SUPER_SHIFT, up, movewindow, u
           bind = SUPER_SHIFT, down, movewindow, d
@@ -176,8 +185,8 @@ with host;
                 in
                   builtins.toString (x + 1 - (c * 10));
               in ''
-                  bind = $mod, ${ws}, workspace, ${toString (x + 1)}
-                  bind = $mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $mod, ${ws}, workspace, ${toString (x + 1)}
+                bind = $mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
               ''
             )
             10)}
@@ -202,7 +211,7 @@ with host;
       portal = {
         enable = true;
         wlr.enable = true;
-        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        extraPortals = [pkgs.xdg-desktop-portal-gtk];
       };
     };
     systemd.sleep.extraConfig = ''
@@ -213,8 +222,8 @@ with host;
     ''; # Clamshell Mode
 
     nix.settings = {
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     }; # Cache
   };
 }

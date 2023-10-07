@@ -2,14 +2,9 @@
   configs,
   pkgs,
   vars,
-  unstable,
   ...
 }: {
-  home-manager.users.${vars.user} = {
-    pkgs,
-    unstable,
-    ...
-  }: {
+  home-manager.users.${vars.user} = {pkgs, ...}: {
     home.packages = with pkgs; [
       unstable.nixd
       # Formatters

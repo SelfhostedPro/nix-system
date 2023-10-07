@@ -1,6 +1,6 @@
 { config, pkgs, vars, ... }:
 {
-  home-manager.users.${vars.user} = { pkgs, unstable, ... }: {
+  home-manager.users.${vars.user} = { pkgs, ... }: {
     home.packages = with pkgs; [
       # Rofi
       rofi-wayland

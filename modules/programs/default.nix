@@ -5,9 +5,7 @@
   inputs,
   vars,
   ...
-}: let
-  brave = pkgs.brave.override {vulkanSupport = true;};
-in {
+}: {
   imports = [./firefox.nix];
 
   # Utility Packages
@@ -23,6 +21,7 @@ in {
     tldr # Helper
     usbutils # Manage USB
     wget # Retriever
+    nvd # Check for version differences between running system and build result.
 
     nano
     python3
@@ -38,6 +37,8 @@ in {
     gnome.gnome-keyring
     gnome.seahorse
     remmina
+
+    thorium
 
     # Video/Audio
     alsa-utils # Audio Control
