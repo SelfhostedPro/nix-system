@@ -141,6 +141,11 @@
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
           definedAliases = [ "@no" ];
         };
+        "Nix Hub" = {
+          urls = [{ tempalte = "https://www.nixhub.io/search?q={searchTerms}";}];
+          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          definedAliases = [ "@nh" "@nv" ];
+        };
         "NUR" = {
           urls = [{
             template = "https://github.com/search?q=repo%3Anix-community%2Fnur-combined%20{searchTerms}&type=code";

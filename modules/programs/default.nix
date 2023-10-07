@@ -10,9 +10,6 @@
 in {
   imports = [./firefox.nix];
 
-  # Configure what apps open by default
-  xdg.mime.defaultApplications = {};
-
   # Utility Packages
   environment.systemPackages = with pkgs; [
     # System-Wide Packages
@@ -65,11 +62,12 @@ in {
     okular # PDF Viewer
     pcmanfm # File Browser
 
+    zoom-us
+
     opera
     microsoft-edge-beta
     brave
     w3m
-    webcord
   ];
 
   nixpkgs.overlays = [
