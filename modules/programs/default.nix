@@ -6,7 +6,7 @@
   vars,
   ...
 }: {
-  imports = [./firefox.nix];
+  imports = [./firefox.nix ./thorium.nix];
 
   # Utility Packages
   environment.systemPackages = with pkgs; [
@@ -37,8 +37,6 @@
     gnome.gnome-keyring
     gnome.seahorse
     remmina
-
-    thorium
 
     # Video/Audio
     alsa-utils # Audio Control

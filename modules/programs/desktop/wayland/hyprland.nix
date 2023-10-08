@@ -28,7 +28,7 @@ with lib;
     ../rofi
     ../swaylock
   ];
-  # fonts.fonts = with pkgs; [
+  # fonts.packages = with pkgs; [
   #   # Fonts
   #   nerdfonts
   # ];
