@@ -10,6 +10,7 @@
       inputs.home-manager.nixosModules.home-manager
       ../../modules/programs
       ../../modules/services
+      ../../modules/gaming
       ./nix.nix
     ]
     ++ (import ../../modules/programs/desktop/wayland

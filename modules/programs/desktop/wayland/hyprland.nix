@@ -11,8 +11,7 @@
   vars,
   ...
 }:
-with lib;
-{
+with lib; {
   options = {
     hyprland = {
       enable = mkOption {
@@ -28,10 +27,6 @@ with lib;
     ../rofi
     ../swaylock
   ];
-  # fonts.packages = with pkgs; [
-  #   # Fonts
-  #   nerdfonts
-  # ];
 
   config = mkIf (config.hyprland.enable) {
     programs = {
@@ -41,7 +36,6 @@ with lib;
         nvidiaPatches = true;
       };
     };
-
     environment = {
       systemPackages = with pkgs; [
         neatvnc
@@ -52,7 +46,7 @@ with lib;
       ];
     };
     home-manager.users.${vars.user} = {pkgs, ...}: {
-      imports = [ inputs.hyprland.homeManagerModules.default];
+      imports = [inputs.hyprland.homeManagerModules.default];
       home.packages = with pkgs; [
         grim # Grab Images
         hyprland-share-picker
@@ -66,9 +60,12 @@ with lib;
         dunst
         swww
         wl-clipboard
+
         # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
         wayvnc
         neatvnc
+        unstable.rustdesk
+        unstable.rustdesk-server
       ];
 
       wayland.windowManager.hyprland = {

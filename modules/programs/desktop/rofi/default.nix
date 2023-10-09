@@ -1,6 +1,10 @@
-{ config, pkgs, vars, ... }:
 {
-  home-manager.users.${vars.user} = { pkgs, ... }: {
+  config,
+  pkgs,
+  vars,
+  ...
+}: {
+  home-manager.users.${vars.user} = {pkgs, ...}: {
     home.packages = with pkgs; [
       # Rofi
       rofi-wayland
@@ -51,5 +55,4 @@
     home.file.".config/rofi/powermenu.sh".source = ./powermenu.sh;
     home.file.".config/rofi/powermenu_theme.rasi".source = ./powermenu_theme.rasi;
   };
-
 }

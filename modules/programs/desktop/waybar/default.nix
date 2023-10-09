@@ -1,5 +1,10 @@
-{ lib, configs, pkgs, vars, ... }:
 {
+  lib,
+  configs,
+  pkgs,
+  vars,
+  ...
+}: {
   programs.nm-applet.enable = true;
   home-manager.users.${vars.user} = {
     home.packages = with pkgs; [
@@ -23,7 +28,7 @@
               "memory"
               "temperature"
             ];
-            modules-center = [ "hyprland/window" ];
+            modules-center = ["hyprland/window"];
             modules-right = [
               "mpd"
               "idle_inhibitor"
@@ -163,4 +168,3 @@
     };
   };
 }
-
