@@ -6,10 +6,11 @@
   vars,
   ...
 }: {
-  imports = [./firefox.nix];
+  imports = [./firefox.nix ./thorium.nix];
 
   # Utility Packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; # (import ./global.nix) ++ 
+  [
     # System-Wide Packages
     # Terminal
     btop # Resource Manager
@@ -38,8 +39,6 @@
     gnome.seahorse
     remmina
 
-    thorium
-
     # Video/Audio
     alsa-utils # Audio Control
     pavucontrol # Audio Control
@@ -62,6 +61,25 @@
     gnome.file-roller # Archive Manager
     okular # PDF Viewer
     pcmanfm # File Browser
+
+    (brave.override {
+      commandLineArgs = [
+        "--ignore-gpu-blocklist"
+        "--enable-gpu-rasterization"
+        "--enable-zero-copy"
+        "--force-dark-mode"
+        "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder,DCompTripleBufferVideoSwapChain"
+        "--disable-features=UseChromeOSDirectVideoDecoder"
+        "--ozone-platform-hint=auto"
+        "--enable-accelerated-video-decode"
+        "--enable-accelerated-video-encode"
+        "--enable-hardware-overlays"
+        "--disable-gpu-driver-bug-workarounds"
+        "--enable-native-gpu-memory-buffers"
+        "--enable-webrtc-hw-decoding"
+        "--enable-webrtc-hw-encoding"
+      ];
+    })
 
     zoom-us
 

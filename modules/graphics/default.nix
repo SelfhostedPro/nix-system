@@ -1,3 +1,5 @@
 [
-  ./nvidia.nix ./remote.nix ./gstreamer.nix
+  ./nvidia.nix
+  ./remote.nix
+  ./gstreamer.nix
 ]

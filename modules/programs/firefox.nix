@@ -1,5 +1,12 @@
-{ config, lib, pkgs, inputs, vars, nur, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  vars,
+  nur,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     firefox-wayland # Browser
   ];
@@ -128,37 +135,45 @@
     profiles.${vars.user} = {
       search.engines = {
         "Nix Packages" = {
-          urls = [{
-            template = "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={searchTerms}";
-          }];
+          urls = [
+            {
+              template = "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={searchTerms}";
+            }
+          ];
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = [ "@np" ];
+          definedAliases = ["@np"];
         };
         "Nix Options" = {
-          urls = [{
-            template = "https://search.nixos.org/options?channel=23.05&from=0&size=50&sort=relevance&type=options&query={searchTerms}";
-          }];
+          urls = [
+            {
+              template = "https://search.nixos.org/options?channel=23.05&from=0&size=50&sort=relevance&type=options&query={searchTerms}";
+            }
+          ];
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = [ "@no" ];
+          definedAliases = ["@no"];
         };
         "Nix Hub" = {
-          urls = [{ tempalte = "https://www.nixhub.io/search?q={searchTerms}";}];
+          urls = [{tempalte = "https://www.nixhub.io/search?q={searchTerms}";}];
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = [ "@nh" "@nv" ];
+          definedAliases = ["@nh" "@nv"];
         };
         "NUR" = {
-          urls = [{
-            template = "https://github.com/search?q=repo%3Anix-community%2Fnur-combined%20{searchTerms}&type=code";
-          }];
+          urls = [
+            {
+              template = "https://github.com/search?q=repo%3Anix-community%2Fnur-combined%20{searchTerms}&type=code";
+            }
+          ];
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = [ "@nur" ];
+          definedAliases = ["@nur"];
         };
         "Home Manager" = {
-          urls = [{
-            template = "https://mipmip.github.io/home-manager-option-search/?query={searchTerms}";
-          }];
+          urls = [
+            {
+              template = "https://mipmip.github.io/home-manager-option-search/?query={searchTerms}";
+            }
+          ];
           icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = [ "@hm" ];
+          definedAliases = ["@hm"];
         };
       };
       search.force = true;
@@ -173,5 +188,4 @@
       };
     };
   };
-
 }

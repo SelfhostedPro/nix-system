@@ -1,21 +1,19 @@
-# WiP
 {
   lib,
   pkgs,
   config,
+  vars,
   ...
 }: {
-  environment.systemPackages = with pkgs; let
-    thorium-browser = mkChromiumDerivation {
-      name = "thorium";
-      packageName = "thorium-browser";
-
-
-
-
-      version = "1.0.4";
-      sha256 = "09g0ln247scv8mj40gxhkij0li62v0rjm2bsgmvl953aj7g3dlh1";
-      vendorSha256 = "07pzqvf9lwgc1fadmyam5hn7arlvzrjsplls445738jpn61854gg";
-    };
-  in [];
+  home-manager.users.${vars.user}.programs.chromium = {
+    enable = true;
+    package = pkgs.thorium;
+    commandLineArgs = [
+      "--force-dark-mode"
+    ];
+    extensions = [
+      {id = "nngceckbapebfimnlniiiahkandclblb";}
+      {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";}
+    ];
+  };
 }

@@ -22,6 +22,10 @@
     };
   };
 
+  fonts.fonts = with pkgs; [
+    nerdfonts
+  ];
+
   networking = {
     hostName = "nix-desktop";
     networkmanager.enable = true;

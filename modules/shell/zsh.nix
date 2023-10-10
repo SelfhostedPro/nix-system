@@ -1,6 +1,8 @@
-{ pkgs, vars, ... }:
-
 {
+  pkgs,
+  vars,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     zsh
   ];
@@ -22,7 +24,7 @@
         enableSyntaxHighlighting = true;
         enableCompletion = true;
         shellAliases = {
-          update = "noglob sudo nixos-rebuild build --flake ~/system/#base && ${pkgs.nvd}/bin/nvd diff /run/current-system ~/system/result";
+          update = "noglob sudo nixos-rebuild build --flake ~/system/#base && ${pkgs.nvd}/bin/nvd diff /run/current-system ./result";
           updatea = "noglob sudo nixos-rebuild switch --flake ~/system/#base";
           fupdate = "noglob nix flake update ~/system/";
           cleanboot = "sudo nix-collect-garbage --delete-older-than 5d && nix-env -p /nix/var/nix/profiles/system --delete-generations +2";

@@ -1,12 +1,16 @@
-{ config, lib, pkgs, ... }: {
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     sunshine # Moonlight Server
     avahi #mDNS
   ];
 
   # Allows sunshine to simulate input.
-  boot.initrd.kernelModules = [ "uinput" ];
+  boot.initrd.kernelModules = ["uinput"];
 
   # Avahi for mDNS and udev rules for input.
   services = {
@@ -38,7 +42,7 @@
   systemd.user.services.sunshine = {
     enable = true;
     description = "sunshine";
-    wantedBy = [ "graphical-session.target" ];
+    wantedBy = ["graphical-session.target"];
     serviceConfig = {
       ExecStart = "${config.security.wrapperDir}/sunshine";
       # ExecStartPre = "${lib.getExe pkgs.xorg.xset} dpms force on";

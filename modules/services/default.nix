@@ -1,6 +1,8 @@
-{ config, pkgs, ... }: {
-
-
+{
+  config,
+  pkgs,
+  ...
+}: {
   sound.enable = true;
   services = {
     # Gnome Remote Desktop Settings
