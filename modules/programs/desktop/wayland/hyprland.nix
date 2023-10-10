@@ -45,15 +45,16 @@ with lib; {
         wlr-randr # Monitor Settings
       ];
     };
-    home-manager.users.${vars.user} = {pkgs, ...}: {
+    home-manager.users.${vars.user} = {pkgs, inputs,...}: {
       imports = [inputs.hyprland.homeManagerModules.default];
       home.packages = with pkgs; [
-        grim # Grab Images
+        unstable.grimblast
+        # grim # Grab Images
+        # slurp # Region Selector
         hyprland-share-picker
         wayland-protocols
         libinput
         libnotify
-        slurp # Region Selector
         swappy # Snapshot Editor
         libnotify
         fnott
@@ -164,7 +165,7 @@ with lib; {
           bind = $mod, R, exec, rofi -show drun -show-icons
           bind = $altmod, R, exec, rofi -show run -show-icons
           bind = $mod, V, togglefloating,
-          bind = , Print, exec, grimblast copy area
+          bind = $altmod, P, exec, grimblast copy area
 
           # workspaces
 

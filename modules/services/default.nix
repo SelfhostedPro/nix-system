@@ -23,6 +23,7 @@
         }
       '';
     };
+    pcscd.enable = true;
     pipewire = {
       enable = true;
       alsa = {

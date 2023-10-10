@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix] ++ import ../../modules/graphics;
+  imports = [../common ./hardware-configuration.nix] ++ import ../../modules/graphics ++ import ../../modules/virtrualization;
 
   hyprland.enable = true; # Window Manager
 

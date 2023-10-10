@@ -33,6 +33,7 @@
         "editor.fontFamily" = "SauceCodePro Nerd Font Mono";
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nixd";
+        "nix.formatterPath" = "${pkgs.alejandra}/bin/alejandra";
         "nix.serverSettings" = {
           "nixd" = {
             "formatting" = {"command" = "${pkgs.alejandra}/bin/alejandra";};

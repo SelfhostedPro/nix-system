@@ -15,6 +15,7 @@
     ]
     ++ (import ../../modules/programs/desktop/wayland
       ++ import ../../modules/dev
+      # ++ import ../../modules/theme
       ++ import ../../modules/shell);
 
   nixpkgs = {
