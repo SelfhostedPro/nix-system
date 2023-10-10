@@ -12,6 +12,8 @@
   config,
   pkgs,
   vars,
+  inputs,
+  outputs,
   ...
 }: {
   imports = import ./modules;
@@ -95,6 +97,13 @@
     casks = [
       "discord"
     ];
+  };
+
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config = {
+      allowUnfree = true;
+    };
   };
 
   nix = {

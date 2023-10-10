@@ -7,11 +7,13 @@
 #       └─ <host>.nix
 #
 {
-  lib,
   inputs,
   nixpkgs,
-  darwin,
+  nixpkgs-unstable,
   home-manager,
+  darwin,
+  outputs,
+  lib,
   vars,
   ...
 }: let
@@ -19,11 +21,10 @@
 in {
   macbook = darwin.lib.darwinSystem {
     inherit system;
-    specialArgs = {inherit inputs vars;};
+    specialArgs = {inherit inputs outputs vars;};
     modules = [
       # Modules Used
       ./macbook.nix
-
       home-manager.darwinModules.home-manager
       {
         # Home-Manager Module
