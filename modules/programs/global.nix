@@ -3,6 +3,6 @@
   inputs,
   ...
 }:
-with pkgs;[
-      pkgs.coreutils # GNU Utilities
+with pkgs; [
+  pkgs.coreutils # GNU Utilities
 ]

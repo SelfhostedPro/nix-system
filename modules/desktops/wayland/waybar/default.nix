@@ -13,7 +13,7 @@
     programs = {
       waybar = {
         package = pkgs.unstable.waybar;
-        systemd.enable = true;
+        systemd.enable = false;
         enable = true;
         settings = {
           mainBar = {
@@ -36,9 +36,10 @@
               "network"
               "clock"
               "tray"
+              "custom/powermenu"
             ];
             "hyprland/workspaces" = {
-              all-outputs = true;
+              all-outputs = false;
               format = "{name}: {icon}";
               format-icons = {
                 "1" = "";
@@ -50,6 +51,9 @@
                 focused = "";
                 default = "";
               };
+            };
+            "hyprland/window" = {
+              separate-outputs = true;
             };
             "hyprland/submap" = {
               "format" = "{}";
@@ -150,8 +154,13 @@
             };
             "custom/launcher" = {
               format = " ";
-              on-click = "${pkgs.killall}/bin/pkill rofi || $HOME/.config/rofi/launcher.sh";
+              on-click = "${pkgs.killall}/bin/killall rofi || $HOME/.config/rofi/launcher.sh";
               tooltip = false;
+            };
+            "custom/powermenu" = {
+               format = "";
+               on-click = "${pkgs.killall}/bin/killall rofi || $HOME/.config/rofi/powermenu.sh";
+               tooltip = false;
             };
           };
         };

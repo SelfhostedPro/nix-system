@@ -23,9 +23,9 @@ with lib; {
 
   imports = [
     ../greetd.nix
-    ../waybar
-    ../rofi
-    ../swaylock
+    ./waybar
+    ./rofi
+    ./swaylock
   ];
 
   config = mkIf (config.hyprland.enable) {
@@ -45,7 +45,11 @@ with lib; {
         wlr-randr # Monitor Settings
       ];
     };
-    home-manager.users.${vars.user} = {pkgs, inputs,...}: {
+    home-manager.users.${vars.user} = {
+      pkgs,
+      inputs,
+      ...
+    }: {
       imports = [inputs.hyprland.homeManagerModules.default];
       home.packages = with pkgs; [
         unstable.grimblast
@@ -72,6 +76,7 @@ with lib; {
       wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
+          exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           # See https://wiki.hyprland.org/Configuring/Monitors/
           monitor=,preferred,auto,auto
           # Network manager applet
@@ -80,8 +85,13 @@ with lib; {
           # Execute your favorite apps at launch
           exec-once = swww img ~/.config/nixpapers/dracula.png hyprpaper & firefox & slack
 
+
           # Some default env vars.
           env = XCURSOR_SIZE,24
+          # XDG Portal Specifications
+          env = XDG_CURRENT_DESKTOP,Hyprland
+          env = XDG_SESSION_DESKTOP,Hyprland
+          env = XDG_SESSION_TYPE,wayland
 
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
@@ -165,6 +175,7 @@ with lib; {
           bind = $mod, R, exec, rofi -show drun -show-icons
           bind = $altmod, R, exec, rofi -show run -show-icons
           bind = $mod, V, togglefloating,
+          bind = $mod, L, exec, loginctl lock-session $XDG_SESSION_ID
           bind = $altmod, P, exec, grimblast copy area
 
           # workspaces
@@ -193,7 +204,7 @@ with lib; {
           bindm = $mod, mouse:272, movewindow
           bindm = $mod, mouse:273, resizewindow
           bind = $mod, mouse:274, togglefloating,
-
+          exec-once = waybar
           # ...
         '';
       };
@@ -223,5 +234,9 @@ with lib; {
       substituters = ["https://hyprland.cachix.org"];
       trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     }; # Cache
+    ## Ensure greetd has a hyprland entry
+    environment.etc."greetd/environments".text = ''
+      Hyprland
+    '';
   };
 }

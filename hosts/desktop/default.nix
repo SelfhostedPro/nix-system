@@ -3,9 +3,11 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix] ++ import ../../modules/graphics ++ import ../../modules/virtrualization;
+  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ] ++ import ../../modules/graphics ++ import ../../modules/desktops/wayland;
 
   hyprland.enable = true; # Window Manager
+  gnome.enable = true;
+  plasma.enable = false;
 
   # desktop = {
   #   hyprland.enable = true;

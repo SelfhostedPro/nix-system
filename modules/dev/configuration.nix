@@ -27,6 +27,7 @@
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         tyriar.sort-lines
+        marp-team.marp-vscode
         # kamadorueda.alejandra
       ];
       userSettings = {

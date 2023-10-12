@@ -4,7 +4,28 @@
   vars,
   inputs,
   ...
-}: {
+}: let
+  swaylockcmd = pkgs.writeShellScriptBin "swaylockcmd" ''
+    ${pkgs.swaylock-effects}/bin/swaylock  \
+           --screenshots \
+           --clock \
+           --indicator \
+           --indicator-radius 100 \
+           --indicator-thickness 7 \
+           --effect-blur 7x5 \
+           --effect-vignette 0.5:0.5 \
+           --ring-color 3b4252 \
+           --key-hl-color 880033 \
+           --line-color 00000000 \
+           --inside-color 00000088 \
+           --separator-color 00000000 \
+           --ignore-empty-password \
+           --show-failed-attempts \
+           --daemonize
+          #  --grace 2 \
+          #  --fade-in 0.1
+  '';
+in {
   home-manager.users.${vars.user} = {
     home.packages = with pkgs; [
       swayidle
@@ -16,11 +37,11 @@
         events = [
           {
             event = "before-sleep";
-            command = "${pkgs.swaylock-effects}/bin/swaylock --screenshots --clock --indicator --ignore-empty-password --show-failed-attempts --indicator-caps-lock --indicator-radius 100 --indicator-thickness 7  --effect-blur 8x4 --font-size 24";
+            command = "${swaylockcmd}/bin/swaylockcmd";
           }
           {
             event = "lock";
-            command = "lock";
+            command = "${swaylockcmd}/bin/swaylockcmd";
           }
         ];
         timeouts = [
@@ -31,7 +52,7 @@
           # }
           {
             timeout = 300;
-            command = "${pkgs.swaylock-effects}/bin/swaylock --screenshots --clock --indicator --ignore-empty-password --show-failed-attempts --indicator-caps-lock --indicator-radius 100 --indicator-thickness 7  --effect-blur 8x4 --font-size 24";
+            command = "${swaylockcmd}/bin/swaylockcmd";
           }
           # {
           #   timeout = 930;

@@ -13,7 +13,7 @@
       ../../modules/gaming
       ./nix.nix
     ]
-    ++ (import ../../modules/programs/desktop/wayland
+    ++ (import ../../modules/desktops/x11
       ++ import ../../modules/dev
       # ++ import ../../modules/theme
       ++ import ../../modules/shell);

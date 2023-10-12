@@ -90,11 +90,6 @@
 
       WLR_RENDER_DRM_DEVICE = "/dev/dri/renderD128";
 
-      # XDG Portal Specifications
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-      XDG_SESSION_TYPE = "wayland";
-
       # Mozilla Applications
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_DRM_DEVICE = "/dev/dri/renderD128";
