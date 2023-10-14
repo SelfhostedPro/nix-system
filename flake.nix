@@ -39,6 +39,7 @@
       url = "github:hyprwm/Hyprland"; # Requires "hyprland.nixosModules.default" to be added the host modules
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    sops-nix.url = "github:Mic92/sops-nix";
     plasma-manager = {
       # KDE Plasma User Settings Generator
       url = "github:pjones/plasma-manager"; # Requires "inputs.plasma-manager.homeManagerModules.plasma-manager" to be added to the home-manager.users.${user}.imports

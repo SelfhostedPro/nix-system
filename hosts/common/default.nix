@@ -11,12 +11,13 @@
       ../../modules/programs
       ../../modules/services
       ../../modules/gaming
+      ../../modules/desktops
       ./nix.nix
     ]
-    ++ (import ../../modules/desktops/x11
-      ++ import ../../modules/dev
-      # ++ import ../../modules/theme
-      ++ import ../../modules/shell);
+    ++ (
+      import ../../modules/dev
+      ++ import ../../modules/shell
+    );
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
@@ -48,6 +49,8 @@
     polkit.enable = true;
     sudo.wheelNeedsPassword = false;
   };
+
+  boot.plymouth.enable = true;
 
   environment = {
     variables = {

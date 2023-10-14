@@ -4,7 +4,8 @@
   lib,
   vars,
   ...
-}: {
+}: 
+{
   base = lib.nixosSystem {
     specialArgs = {inherit inputs outputs vars;};
     modules = [

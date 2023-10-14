@@ -19,7 +19,7 @@ with lib; {
     ../greetd.nix
   ];
 
-  config = mkIf (config.plasma.enable) {
+  config = mkIf (builtins.elem "plasma" config.desktop.environments) {
     environment.systemPackages = with pkgs; [
       xorg.xinit
     ];

@@ -1,80 +1,25 @@
-#
-#  Hyprland Configuration
-#  Enable with "hyprland.enable = true;"
-#
 {
-  config,
   pkgs,
-  inputs,
-  outputs,
-  lib,
+  config,
   vars,
+  lib,
   ...
 }:
 with lib; {
-  options = {
-    hyprland = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-      };
-    };
-  };
-
-  imports = [
-    ../greetd.nix
-    ./waybar
-    ./rofi
-    ./swaylock
-  ];
-
-  config = mkIf (config.hyprland.enable) {
-    programs = {
-      hyprland = {
-        enable = true;
-        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-        nvidiaPatches = true;
-      };
-    };
-    environment = {
-      systemPackages = with pkgs; [
-        neatvnc
-        kitty
-        qt5.qtwayland
-        qt6.qtwayland
-        wlr-randr # Monitor Settings
-      ];
-    };
+  config = mkIf (builtins.elem "hyprland" config.desktop.environments) {
     home-manager.users.${vars.user} = {
       pkgs,
       inputs,
       ...
     }: {
       imports = [inputs.hyprland.homeManagerModules.default];
-      home.packages = with pkgs; [
-        unstable.grimblast
-        # grim # Grab Images
-        # slurp # Region Selector
-        hyprland-share-picker
-        wayland-protocols
-        libinput
-        libnotify
-        swappy # Snapshot Editor
-        libnotify
-        fnott
-        dunst
-        swww
-        wl-clipboard
-
-        # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
-        wayvnc
-        neatvnc
-        unstable.rustdesk
-        unstable.rustdesk-server
-      ];
 
       wayland.windowManager.hyprland = {
         enable = true;
+        package = inputs.hyprland.packages.${pkgs.system}.hyprland.override {
+          enableXWayland = true;
+          enableNvidiaPatches = true;
+        };
         extraConfig = ''
           exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           # See https://wiki.hyprland.org/Configuring/Monitors/
@@ -83,7 +28,7 @@ with lib; {
           exec-once = nm-applet --indicator
           exec-once = swww init
           # Execute your favorite apps at launch
-          exec-once = swww img ~/.config/nixpapers/dracula.png hyprpaper & firefox & slack
+          exec-once = swww img /etc/nixpapers/dracula.png hyprpaper & firefox & slack
 
 
           # Some default env vars.
@@ -125,7 +70,7 @@ with lib; {
               rounding = 10
               #drop_shadow = yes
               #shadow_range = 4
-              #shadow_render_power = 3
+              #shadow_render_power = 3F
               #col.shadow = rgba(1a1a1aee)
           }
 
@@ -208,35 +153,6 @@ with lib; {
           # ...
         '';
       };
-      home.file.".config/nixpapers" = {
-        recursive = true;
-        source = ./resources/images/nixpapers;
-      };
-      services = {
-        fnott.enable = true;
-      };
     };
-    xdg = {
-      portal = {
-        enable = true;
-        wlr.enable = true;
-        extraPortals = [pkgs.xdg-desktop-portal-gtk];
-      };
-    };
-    systemd.sleep.extraConfig = ''
-      AllowSuspend=no
-      AllowHibernation=no
-      AllowSuspendThenHibernate=no
-      AllowHybridSleep=no
-    ''; # Clamshell Mode
-
-    nix.settings = {
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    }; # Cache
-    ## Ensure greetd has a hyprland entry
-    environment.etc."greetd/environments".text = ''
-      Hyprland
-    '';
   };
 }

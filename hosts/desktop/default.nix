@@ -3,11 +3,14 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ] ++ import ../../modules/graphics ++ import ../../modules/desktops/wayland;
+  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation] ++ import ../../modules/graphics;
 
-  hyprland.enable = true; # Window Manager
-  gnome.enable = true;
-  plasma.enable = false;
+  desktop.environments = [
+    "hyprland"
+    "gnome"
+    "gamescope"
+    # "plasma" Disabled for testing.
+  ];
 
   # desktop = {
   #   hyprland.enable = true;

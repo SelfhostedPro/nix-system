@@ -4,6 +4,8 @@
   ...
 }: {
   sound.enable = true;
+  hardware.pulseaudio.enable = false;
+
   services = {
     # Gnome Remote Desktop Settings
     gnome.gnome-keyring.enable = true;

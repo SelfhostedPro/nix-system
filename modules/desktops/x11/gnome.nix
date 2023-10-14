@@ -7,39 +7,18 @@
   ...
 }:
 with lib; {
-  options = {
-    gnome = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-      };
-    };
-  };
-
   imports = [
     ../greetd.nix
   ];
 
-  config = mkIf (config.gnome.enable) {
+  config = mkIf (builtins.elem "gnome" config.desktop.environments) {
+    desktop.wayland = true;
+
     services.xserver.enable = true;
     services.xserver.videoDrivers = ["nvidia"];
-    environment.systemPackages = with pkgs; [
-      xorg.xinit
-    ];
-    home-manager.users.${vars.user} = {
-      home.packages = with pkgs; [
-        gnome.gnome-session
-        gnome.gnome-screenshot
-      ];
+    services.xserver.desktopManager.gnome.enable = true;
+    services.gnome.core-utilities.enable = true;
 
-      xsession = {
-        enable = true;
-        windowManager.command = "gnome-session";
-      };
-    };
-    ## Ensure greetd has a gnome entry
-    environment.etc."greetd/environments".text = ''
-      Gnome
-    '';
+    environment.systemPackages = with pkgs; [xorg.xinit];
   };
 }
