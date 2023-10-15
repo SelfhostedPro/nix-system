@@ -8,7 +8,7 @@
   desktop.environments = [
     "hyprland"
     "gnome"
-    "gamescope"
+    # "gamescope" WiP, doesn't boot into DE
     # "plasma" Disabled for testing.
   ];
 
