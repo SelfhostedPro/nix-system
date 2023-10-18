@@ -10,6 +10,7 @@
       # Formatters
       # nixpkgs-fmt
       alejandra
+      deploy-rs
     ];
     # vs-code-server fixes
     imports = [
@@ -25,6 +26,7 @@
       enable = true;
       package = pkgs.vscodium;
       extensions = with pkgs.vscode-extensions; [
+        hashicorp.terraform
         jnoortheen.nix-ide
         tyriar.sort-lines
         marp-team.marp-vscode

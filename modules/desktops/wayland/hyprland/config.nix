@@ -113,6 +113,7 @@ with lib; {
 
           $mod = SUPER
           $altmod = SUPER_SHIFT
+          $altaltmod = SUPER_CTRL
 
           # Launcher Shortcuts
           bind = $mod, T, exec, kitty
@@ -126,10 +127,14 @@ with lib; {
           # workspaces
 
           # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
-          bind = SUPER_SHIFT, left, movewindow, l
-          bind = SUPER_SHIFT, right, movewindow, r
-          bind = SUPER_SHIFT, up, movewindow, u
-          bind = SUPER_SHIFT, down, movewindow, d
+          bind = $altmod, left, movewindow, l
+          bind = $altmod, right, movewindow, r
+          bind = $altmod, up, movewindow, u
+          bind = $altmod, down, movewindow, d
+
+          # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
+          bind = $altaltmod, left, workspace, m+1
+          bind = $altaltmod, right, workspace, m-1
 
           # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
           ${builtins.concatStringsSep "" (builtins.genList (

@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation] ++ import ../../modules/graphics;
+  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ../modules/work] ++ import ../../modules/graphics;
 
   desktop.environments = [
     "hyprland"
