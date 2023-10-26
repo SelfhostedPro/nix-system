@@ -158,9 +158,9 @@
               tooltip = false;
             };
             "custom/powermenu" = {
-               format = "";
-               on-click = "${pkgs.killall}/bin/killall rofi || $HOME/.config/rofi/powermenu.sh";
-               tooltip = false;
+              format = "";
+              on-click = "${pkgs.killall}/bin/killall rofi || $HOME/.config/rofi/powermenu.sh";
+              tooltip = false;
             };
           };
         };

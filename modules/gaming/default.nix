@@ -16,6 +16,8 @@
   };
   environment.systemPackages = with pkgs; [
     mangohud
+    unstable.godot_4
+    obs-studio
   ];
   hardware.opengl = {
     extraPackages = with pkgs; [mangohud gamescope];

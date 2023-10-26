@@ -51,7 +51,7 @@
       unrar # Rar Files
       zip # Zip
       ranger # CLI File Manager
-      
+
       # Apps
       appimage-run # Runs AppImages on NixOS
       google-chrome # Browser
@@ -71,7 +71,6 @@
       softmaker-office
       freeoffice
       unstable.marp-cli
-
 
       # Conferencing
       zoom-us

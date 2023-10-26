@@ -11,6 +11,7 @@
       # nixpkgs-fmt
       alejandra
       deploy-rs
+      blender
     ];
     # vs-code-server fixes
     imports = [
@@ -30,6 +31,8 @@
         jnoortheen.nix-ide
         tyriar.sort-lines
         marp-team.marp-vscode
+        redhat.vscode-yaml
+        ms-kubernetes-tools.vscode-kubernetes-tools
         # kamadorueda.alejandra
       ];
       userSettings = {
@@ -43,6 +46,7 @@
             "options" = {"enable" = true;};
           };
         };
+        "godot_tools.gdscript_lsp_server_port" = 6008;
       };
     };
 
