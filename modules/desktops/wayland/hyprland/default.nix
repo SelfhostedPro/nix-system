@@ -31,10 +31,10 @@ with lib; {
     programs = {
       hyprland = {
         enable = true;
-        package = (inputs.hyprland.packages.${pkgs.system}.hyprland.override {
+        package = inputs.hyprland.packages.${pkgs.system}.hyprland.override {
           enableXWayland = true;
           enableNvidiaPatches = true;
-        });
+        };
       };
     };
     environment = {

@@ -195,7 +195,7 @@ in {
     home.file.".config/rofi/powermenu.sh" = {
       executable = true;
       text = ''
-        #!/usr/bin/env /run/current-system/sw/bin/bash 
+        #!/usr/bin/env /run/current-system/sw/bin/bash
         ${pkgs.rofi-wayland}/bin/rofi -show p -modi p:${off}/bin/off.sh -theme ~/.config/rofi/powermenu_theme.rasi
       '';
     };

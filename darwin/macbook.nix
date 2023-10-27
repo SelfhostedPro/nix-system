@@ -29,8 +29,8 @@
     hostName = "MacBook";
   };
 
-  skhd.enable = true; # Window Manager
-  yabai.enable = true; # Hotkeys
+  skhd.enable = false; # Hotkeys
+  yabai.enable = false; # Window Manager
 
   fonts = {
     # Fonts
@@ -146,64 +146,42 @@
     stateVersion = 4;
   };
 
-  home-manager.users.${vars.macuser} = {
-    home = {
-      stateVersion = "23.05";
-    };
-
-    programs = {
-      zsh = {
-        # Shell
-        enable = true;
-        enableAutosuggestions = true;
-        enableSyntaxHighlighting = true;
-        history.size = 10000;
-        shellAliases = {
-          update = "darwin-rebuild switch --flake ~/system/#macbook";
-        };
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "bak";
+    users.${vars.macuser} = {
+      home = {
+        stateVersion = "23.05";
       };
-      nix-index.enable = true;
-      neovim = {
-        enable = true;
-        viAlias = true;
-        vimAlias = true;
-
-        plugins = with pkgs.vimPlugins; [
-          # Syntax
-          vim-nix
-          vim-markdown
-
-          # Quality of life
-          vim-lastplace # Opens document where you left it
-          auto-pairs # Print double quotes/brackets/etc.
-          vim-gitgutter # See uncommitted changes of file :GitGutterEnable
-
-          # File Tree
-          nerdtree # File Manager - set in extraConfig to F6
-
-          # Customization
-          wombat256-vim # Color scheme for lightline
-          srcery-vim # Color scheme for text
-
-          lightline-vim # Info bar at bottom
-          indent-blankline-nvim # Indentation lines
-        ];
-
-        extraConfig = ''
-          syntax enable                             " Syntax highlighting
-          colorscheme srcery                        " Color scheme text
-
-          let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ }                                     " Color scheme lightline
-
-          highlight Comment cterm=italic gui=italic " Comments become italic
-          hi Normal guibg=NONE ctermbg=NONE         " Remove background, better for personal theme
-
-          set number                                " Set numbers
-
-          nmap <F6> :NERDTreeToggle<CR>             " F6 opens NERDTree
+      programs = {
+        zsh = {
+          # Shell
+          enable = true;
+          enableAutosuggestions = true;
+          enableSyntaxHighlighting = true;
+          history.size = 10000;
+          shellAliases = {
+            update = "darwin-rebuild build --flake ~/system/#macbook && ${pkgs.nvd}/bin/nvd diff /run/current-system ./result";
+            upgrade = "darwin-rebuild switch --flake ~/system/#macbook";
+          };
+        };
+        nix-index.enable = true;
+        ssh.enable = true;
+        ssh.extraConfig = ''
+          UseKeychain yes
+          AddKeysToAgent yes
+          IdentityFile ~/.ssh/id_rsa
         '';
+        ssh.matchBlocks."10.0.100.253" = {
+          hostname = "10.0.100.253";
+          user = "user";
+          extraOptions = {
+            UseKeychain = "yes";
+            AddKeysToAgent = "yes";
+            IdentityFile = "~/.ssh/id_rsa";
+          };
+        };
       };
     };
   };
