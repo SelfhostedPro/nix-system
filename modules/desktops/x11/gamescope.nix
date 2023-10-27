@@ -41,7 +41,7 @@ in
       #   steam-session
       #   gamescope
       #   mangohud
-      #   protontricks
+      #   protontrickse
       # ];
       home-manager.users.${vars.user} = {
         home.packages = with pkgs; [

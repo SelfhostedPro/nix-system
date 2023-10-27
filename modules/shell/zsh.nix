@@ -30,6 +30,7 @@
           cleanboot = "sudo nix-collect-garbage --delete-older-than 5d && nix-env -p /nix/var/nix/profiles/system --delete-generations +2";
           waybarr = "pkill -SIGUSR2 waybar";
           nexplorer = "noglob nix repl ~/system/#nixosConfigurations.base";
+          aterraform = "aws-vault exec devops -- terraform";
         };
         prezto = {
           enable = true;
