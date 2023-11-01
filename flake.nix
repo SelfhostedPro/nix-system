@@ -23,6 +23,12 @@
       url = "github:nix-community/emacs-overlay";
       flake = false;
     };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      # inputs.flake-compat.follows = "flake-compat";
+      # inputs.flake-utils.follows = "flake-utils";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixgl = {
       # Fixes OpenGL With Other Distros.
       url = "github:guibou/nixGL";
@@ -58,6 +64,7 @@
     doom-emacs,
     hyprland,
     plasma-manager,
+    nix-vscode-extensions,
     ...
   }: let
     inherit (self) outputs;

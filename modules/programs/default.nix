@@ -6,7 +6,7 @@
   vars,
   ...
 }: {
-  imports = [./firefox.nix ./thorium.nix ./thunar.nix];
+  imports = [./firefox.nix ./thorium.nix ./thunar.nix ./rgb.nix];
 
   # Utility Packages
   environment.systemPackages = with pkgs; # (import ./global.nix) ++
@@ -24,16 +24,18 @@
       usbutils # Manage USB
       wget # Retriever
       nvd # Check for version differences between running system and build result.
+      nix-tree
 
       nano
       python3
       psmisc
       pciutils
-      nix-index
-      discord # Messaging
+      nix-index # Messaging
+      # unstable.vesktop
+      # unstable.webcord
       networkmanagerapplet
       spotify
-      slack
+      libcamera
 
       gnome.gnome-remote-desktop
       gnome.gnome-keyring

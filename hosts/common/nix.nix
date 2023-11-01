@@ -23,7 +23,7 @@
       # Garbage Collection
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 2d";
+      options = "--delete-older-than 7d";
     };
     package = pkgs.nixVersions.unstable; # Use unstable version of nix.
   };
