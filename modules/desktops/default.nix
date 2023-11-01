@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  vars,
   ...
 }:
 with lib; {
@@ -22,8 +23,10 @@ with lib; {
   imports = [./greetd.nix] ++ (import ./wayland ++ import ./x11);
 
   config = {
-    environment.etc."nixpapers" = {
-      source = ./resources/nixpapers;
+    home-manager.users.${vars.user}.home.file.".config/resources" = {
+      enable = true;
+      recursive = true;
+      source = ./resources;
     };
 
     systemd.user.units.xdg-desktop-portal-hyprland.enable = true;

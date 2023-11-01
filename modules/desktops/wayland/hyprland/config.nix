@@ -25,10 +25,9 @@ with lib; {
                  # See https://wiki.hyprland.org/Configuring/Monitors/
                  monitor=,preferred,auto,auto
                  # Network manager applet
-                 exec-once = nm-applet --indicator
-                 exec-once = swww init
+                 exec-once = nm-applet --indicator & wl-clipboard & waybar -c ~/.config/waybar/config
                  # Execute your favorite apps at launch
-                 exec-once = swww img /etc/nixpapers/dracula.png & firefox & slack
+                 exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.config/resources/nixpapers/dracula.png & firefox & slack
 
 
                  # Some default env vars.
@@ -37,16 +36,17 @@ with lib; {
                  env = XDG_CURRENT_DESKTOP,Hyprland
                  env = XDG_SESSION_DESKTOP,Hyprland
                  env = XDG_SESSION_TYPE,wayland
-          env = MOZ_ENABLE_WAYLAND,1
-                 # NixOS Chromium Flags
-          	  env = NIXOS_OZONE_WL,1
                  env = MOZ_ENABLE_WAYLAND,1
-          env = EGL_PLATFORM,wayland
-          env = NVD_BACKEND,egl
-          env = WLR_NO_HARDWARE_CURSORS,1
-          env = WLR_BACKEND,"drm,wayland,libinput,headless"
-          env = WLR_RENDERER,vulkan
-          env = WLR_RENDER_DRM_DEVICE,"/dev/dri/renderD128"
+                 env = SDL_VIDEODRIVER,wayland
+                 # NixOS Chromium Flags
+          	     env = NIXOS_OZONE_WL,1
+                 env = MOZ_ENABLE_WAYLAND,1
+                 env = EGL_PLATFORM,wayland
+                 env = NVD_BACKEND,egl
+                 env = WLR_NO_HARDWARE_CURSORS,1
+                 env = WLR_BACKEND,"drm,wayland,libinput,headless"
+                 env = WLR_RENDERER,vulkan
+                 env = WLR_RENDER_DRM_DEVICE,"/dev/dri/renderD128"
 
                  # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
                  input {
@@ -131,6 +131,7 @@ with lib; {
                  bind = $mod, R, exec, rofi -show drun -show-icons
                  bind = $altmod, R, exec, rofi -show run -show-icons
                  bind = $mod, V, togglefloating,
+                 bind = $altmod, V, fullscreen,
                  bind = $mod, L, exec, loginctl lock-session $XDG_SESSION_ID
                  bind = $altmod, P, exec, grimblast copy area
 
@@ -164,7 +165,6 @@ with lib; {
                  bindm = $mod, mouse:272, movewindow
                  bindm = $mod, mouse:273, resizewindow
                  bind = $mod, mouse:274, togglefloating,
-                 exec-once = waybar
                  # ...
         '';
       };

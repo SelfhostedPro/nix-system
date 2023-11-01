@@ -12,6 +12,7 @@
       ../../modules/services
       ../../modules/gaming
       ../../modules/desktops
+      ../../modules/security
       ./nix.nix
     ]
     ++ (

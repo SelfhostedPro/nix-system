@@ -111,9 +111,10 @@ tooltip label {
     color: rgb(217, 224, 238);
 }
 
-/* #idle_inhibitor {
+#idle_inhibitor {
     color: rgb(221, 182, 242);
-  }*/
+    padding-left: 5px
+  }
 #custom-wall {
     color: rgb(221, 182, 242);
 }
@@ -157,17 +158,20 @@ tooltip label {
     padding-left: 10px;
 }
 
-#mpd.paused {
+/* #mpd.paused {
     color: #414868;
     font-style: italic;
 }
 
 #mpd.stopped {
     background: transparent;
-}
+} */
 
-#mpd {
-    color: #c0caf5;
+#custom-spotify {
+    background-color: #7ebae4;
+    color: rgb(26, 24, 38);
+    padding-left: 8px;
+    margin-right: 4px;
 }
 
 #custom-cava-internal {

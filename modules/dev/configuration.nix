@@ -2,8 +2,19 @@
   configs,
   pkgs,
   vars,
+  inputs,
   ...
-}: {
+}: 
+let
+  marketplace-extensions = with pkgs.vscode-marketplace; [
+    hediet.vscode-drawio
+    vue.volar
+    evilz.vscode-reveal
+    antfu.slidev
+    astro-build.astro-vscode
+  ];
+in
+{
   home-manager.users.${vars.user} = {pkgs, ...}: {
     home.packages = with pkgs; [
       unstable.nixd
@@ -33,8 +44,9 @@
         marp-team.marp-vscode
         redhat.vscode-yaml
         ms-kubernetes-tools.vscode-kubernetes-tools
+        marp-team.marp-vscode
         # kamadorueda.alejandra
-      ];
+      ] ++ marketplace-extensions;
       userSettings = {
         "editor.fontFamily" = "SauceCodePro Nerd Font Mono";
         "nix.enableLanguageServer" = true;

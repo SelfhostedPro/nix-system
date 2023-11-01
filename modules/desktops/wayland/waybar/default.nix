@@ -4,15 +4,30 @@
   pkgs,
   vars,
   ...
-}: {
+}: let
+  waybar-with-mp = pkgs.unstable.waybar.override {
+    withMediaPlayer = true;
+  };
+  cava-internal = pkgs.writeShellScriptBin "cava-internal" ''
+    cava -p ~/.config/cava/config_internal | sed -u 's/;//g;s/0/▁/g;s/1/▂/g;s/2/▃/g;s/3/▄/g;s/4/▅/g;s/5/▆/g;s/6/▇/g;s/7/█/g;'
+  '';
+in {
   programs.nm-applet.enable = true;
   home-manager.users.${vars.user} = {
     home.packages = with pkgs; [
+      waybar-with-mp
       pavucontrol
+      playerctl
+      cava
     ];
+    services = {
+      playerctld.enable = true;
+    };
     programs = {
       waybar = {
-        package = pkgs.unstable.waybar;
+        package = pkgs.unstable.waybar.override {
+          withMediaPlayer = true;
+        };
         systemd.enable = false;
         enable = true;
         settings = {
@@ -30,7 +45,7 @@
             ];
             modules-center = ["hyprland/window"];
             modules-right = [
-              "mpd"
+              "custom/spotify"
               "idle_inhibitor"
               "pulseaudio"
               "network"
@@ -58,31 +73,33 @@
             "hyprland/submap" = {
               "format" = "{}";
             };
+            "custom/spotify" = {
+              exec = "${waybar-with-mp}/bin/waybar-mediaplayer.py --player spotify";
+              format = "{}  ";
+              return-type = "json";
+              on-click-middle = "playerctl play-pause";
+              on-click = "playerctl previous";
+              on-click-right = "playerctl next";
+              exec-if = "pgrep spotify";
+              interval = 10;
+            };
             mpd = {
-              format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ";
-              format-disconnected = "Disconnected ";
-              format-stopped = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon} Stopped ";
-              unknown-tag = "N/A";
-              interval = 2;
-              consume-icons = {
-                on = " ";
-              };
-              random-icons = {
-                off = "<span color=\"#f53c3c\"></span> ";
-                on = " ";
-              };
-              repeat-icons = {
-                on = " ";
-              };
-              single-icons = {
-                on = "1 ";
-              };
-              state-icons = {
-                paused = "";
-                playing = "";
-              };
-              tooltip-format = "MPD (connected)";
-              tooltip-format-disconnected = "MPD (disconnected)";
+              max-length = 25;
+              format = "<span foreground='#bb9af7'></span> {title}";
+              format-paused = " {title}";
+              format-stopped = "<span foreground='#bb9af7'></span>";
+              format-disconnected = "";
+              on-click = "mpc --quiet toggle";
+              on-click-right = "mpc update; mpc ls | mpc add";
+              on-click-middle = "kitty --class='ncmpcpp' ncmpcpp";
+              on-scroll-up = "mpc --quiet prev";
+              on-scroll-down = "mpc --quiet next";
+              smooth-scrolling-threshold = 5;
+              tooltip-format = "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})";
+            };
+            "custom/cava-internal" = {
+              "exec" = "sleep 1s && ${cava-internal}/bin/cava-internal";
+              "tooltip" = false;
             };
             idle_inhibitor = {
               "format" = "{icon}";
@@ -150,7 +167,8 @@
                   ""
                 ];
               };
-              on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+              on-click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+              on-right-click = "${pkgs.pavucontrol}/bin/pavucontrol";
             };
             "custom/launcher" = {
               format = " ";
@@ -171,9 +189,13 @@
     #   source = ../configs/waybar.json;
     #   onChange = ''systemctl restart --user waybar'';
     # };
-    home.file.".config/waybar/style.css" = {
-      source = ./configs/waybar.css;
-      onChange = ''systemctl restart --user waybar'';
+    home.file = {
+      ".config/waybar/style.css" = {
+        source = ./configs/waybar.css;
+        onChange = "${pkgs.procps}/bin/pkill -u $USER -USR2 waybar || true";
+      };
+      ".config/cava/config".source = ./configs/cava_config;
+      ".config/cava/config_internal".source = ./configs/cava_config_internal;
     };
   };
 }

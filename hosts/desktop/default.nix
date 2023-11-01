@@ -25,11 +25,27 @@
       efi.canTouchEfiVariables = true;
       timeout = 2;
     };
+    kernelPackages = pkgs.linuxPackages_6_5;
   };
 
   fonts.fonts = with pkgs; [
     nerdfonts
   ];
+  environment.systemPackages = with pkgs; [
+    blueman
+    bluez
+    xboxdrv
+    linuxKernel.packages.linux_6_5.xone
+    zenstates
+  ];
+
+  services = {
+    blueman.enable = true;
+  };
+
+  hardware = {
+    bluetooth.enable = true;
+  };
 
   networking = {
     hostName = "nix-desktop";

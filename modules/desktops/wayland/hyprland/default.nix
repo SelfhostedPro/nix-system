@@ -60,8 +60,11 @@ with lib; {
         libinput
         libnotify
         swappy # Snapshot Editor
-        swww
+        swaybg
+        # hyprpaper
         wl-clipboard
+        clipman
+        xorg.xwininfo
 
         # Notifications
         libnotify
@@ -71,8 +74,6 @@ with lib; {
         # Remote Desktops https://github.com/bbusse/swayvnc/blob/main/Containerfile
         wayvnc
         neatvnc
-        unstable.rustdesk
-        unstable.rustdesk-server
       ];
       services = {
         fnott.enable = true;

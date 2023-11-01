@@ -2,8 +2,9 @@
   config,
   pkgs,
   vars,
+  lib,
   ...
-}: {
+}:{
   # Possible issues/fixes https://github.com/NixOS/nixpkgs/issues/238101#issuecomment-1607806376
   programs = {
     steam = {

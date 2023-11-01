@@ -32,7 +32,11 @@
       libvdpau-va-gl
       vaapiVdpau
     ];
+    # extraPackages32 = with pkgs; [
+    #   libva
+    # ];
   };
+  # hardware.cpu.amd.updateMicrocode = true;
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
@@ -55,6 +59,7 @@
       xdg-utils
       ffmpeg-full
       vdpauinfo
+      libva
       libva-utils
       wayland-utils
       nvitop
