@@ -19,6 +19,7 @@
     mangohud
     unstable.godot_4
     obs-studio
+    blender
   ];
   hardware.opengl = {
     extraPackages = with pkgs; [mangohud gamescope];
