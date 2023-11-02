@@ -16,7 +16,7 @@
   outputs,
   ...
 }: {
-  imports = import ./modules;
+  imports = import ./modules ++ import ../modules/dev;
 
   users.users.${vars.macuser} = {
     # MacOS User
@@ -151,9 +151,7 @@
     useUserPackages = true;
     backupFileExtension = "bak";
     users.${vars.macuser} = {
-      home = {
-        stateVersion = "23.05";
-      };
+      home.stateVersion = "23.05";
       programs = {
         zsh = {
           # Shell

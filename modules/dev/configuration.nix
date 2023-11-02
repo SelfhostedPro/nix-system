@@ -4,8 +4,7 @@
   vars,
   inputs,
   ...
-}: 
-let
+}: let
   marketplace-extensions = with pkgs.vscode-marketplace; [
     hediet.vscode-drawio
     vue.volar
@@ -13,16 +12,18 @@ let
     antfu.slidev
     astro-build.astro-vscode
   ];
-in
-{
-  home-manager.users.${vars.user} = {pkgs, ...}: {
+in {
+  home-manager.users.${
+    if pkgs.stdenv.isLinux == true
+    then vars.user
+    else vars.macuser
+  } = {pkgs, ...}: {
     home.packages = with pkgs; [
       unstable.nixd
       # Formatters
       # nixpkgs-fmt
       alejandra
       deploy-rs
-      blender
     ];
     # vs-code-server fixes
     imports = [
@@ -36,17 +37,19 @@ in
     services.vscode-server.enable = true;
     programs.vscode = {
       enable = true;
-      package = pkgs.vscodium;
-      extensions = with pkgs.vscode-extensions; [
-        hashicorp.terraform
-        jnoortheen.nix-ide
-        tyriar.sort-lines
-        marp-team.marp-vscode
-        redhat.vscode-yaml
-        ms-kubernetes-tools.vscode-kubernetes-tools
-        marp-team.marp-vscode
-        # kamadorueda.alejandra
-      ] ++ marketplace-extensions;
+      package = pkgs.unstable.vscodium;
+      extensions = with pkgs.vscode-extensions;
+        [
+          hashicorp.terraform
+          jnoortheen.nix-ide
+          tyriar.sort-lines
+          marp-team.marp-vscode
+          redhat.vscode-yaml
+          ms-kubernetes-tools.vscode-kubernetes-tools
+          marp-team.marp-vscode
+          # kamadorueda.alejandra
+        ]
+        ++ marketplace-extensions;
       userSettings = {
         "editor.fontFamily" = "SauceCodePro Nerd Font Mono";
         "nix.enableLanguageServer" = true;
