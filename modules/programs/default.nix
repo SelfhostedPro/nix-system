@@ -67,6 +67,8 @@
       # Work Browser
       google-chrome
 
+      unstable.rambox
+
       # Office Alternative
       wpsoffice
       spice-up

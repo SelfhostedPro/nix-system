@@ -25,6 +25,9 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     nur = import inputs.nur;
+
+    #vscodium-wayland = prev.vscodium.override {electron = final.electron_24;};
+
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });

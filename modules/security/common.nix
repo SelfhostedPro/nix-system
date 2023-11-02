@@ -1,4 +1,8 @@
-{config, pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   systemd.coredump.enable = false;
 
   services.clamav.daemon.enable = true;

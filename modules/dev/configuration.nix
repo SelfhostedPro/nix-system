@@ -4,17 +4,19 @@
   vars,
   inputs,
   ...
-}: 
-let
+}: let
   marketplace-extensions = with pkgs.vscode-marketplace; [
     hediet.vscode-drawio
     vue.volar
-    evilz.vscode-reveal
-    antfu.slidev
+    # evilz.vscode-reveal
+    # antfu.slidev
     astro-build.astro-vscode
   ];
-in
-{
+in {
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-24.8.6"
+  ];
+
   home-manager.users.${vars.user} = {pkgs, ...}: {
     home.packages = with pkgs; [
       unstable.nixd
@@ -23,6 +25,7 @@ in
       alejandra
       deploy-rs
       blender
+      vscodium
     ];
     # vs-code-server fixes
     imports = [
@@ -37,16 +40,18 @@ in
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium;
-      extensions = with pkgs.vscode-extensions; [
-        hashicorp.terraform
-        jnoortheen.nix-ide
-        tyriar.sort-lines
-        marp-team.marp-vscode
-        redhat.vscode-yaml
-        ms-kubernetes-tools.vscode-kubernetes-tools
-        marp-team.marp-vscode
-        # kamadorueda.alejandra
-      ] ++ marketplace-extensions;
+      extensions = with pkgs.vscode-extensions;
+        [
+          hashicorp.terraform
+          jnoortheen.nix-ide
+          tyriar.sort-lines
+          marp-team.marp-vscode
+          redhat.vscode-yaml
+          ms-kubernetes-tools.vscode-kubernetes-tools
+          github.copilot
+          # kamadorueda.alejandra
+        ]
+        ++ marketplace-extensions;
       userSettings = {
         "editor.fontFamily" = "SauceCodePro Nerd Font Mono";
         "nix.enableLanguageServer" = true;
@@ -59,6 +64,8 @@ in
           };
         };
         "godot_tools.gdscript_lsp_server_port" = 6008;
+        "markdown.marp.enableHtml" = true;
+        "window.titleBarStyle" = "custom";
       };
     };
 
