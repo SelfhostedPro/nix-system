@@ -7,16 +7,19 @@
 }:
 with lib; {
   config = mkIf (builtins.elem "hyprland" config.desktop.environments) {
+
+    environment.systemPackages = with pkgs; [
+      inputs.hyprland.hyprland-protocols
+    ];
     home-manager.users.${vars.user} = {
       pkgs,
       inputs,
       ...
     }: {
       imports = [inputs.hyprland.homeManagerModules.default];
-
       wayland.windowManager.hyprland = {
         enable = true;
-        package = inputs.hyprland.packages.${pkgs.system}.hyprland.override {
+        package = pkgs.inputs.hyprland.hyprland.override {
           enableXWayland = true;
           enableNvidiaPatches = true;
         };
@@ -24,6 +27,7 @@ with lib; {
            exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
            # See https://wiki.hyprland.org/Configuring/Monitors/
            monitor=,preferred,auto,auto
+           exec-once = eval $(gnome-keyring-daemon --start --components=secrets)
            # Network manager applet
            exec-once = nm-applet --indicator & wl-clipboard & waybar -c ~/.config/waybar/config
            # Execute your favorite apps at launch

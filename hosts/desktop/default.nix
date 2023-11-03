@@ -50,7 +50,6 @@
   networking = {
     hostName = "nix-desktop";
     networkmanager.enable = true;
-    firewall.enable = false;
   };
 
   fileSystems."/home" = {

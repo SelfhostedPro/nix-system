@@ -32,14 +32,21 @@ with lib; {
     systemd.user.units.xdg-desktop-portal-hyprland.enable = true;
     systemd.user.units.xdg-desktop-portal-gtk.enable = true;
 
+    environment.systemPackages = with pkgs; [
+      inputs.hyprland.xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal
+    ];
+
     xdg = {
       portal = {
         enable = true;
         wlr.enable = false;
+        xdgOpenUsePortal = true;
         #needed to prevent gnome from adding xdg-desktop-portal-gnome
         extraPortals = with pkgs;
           mkForce [
-            xdg-desktop-portal-hyprland
+            inputs.hyprland.xdg-desktop-portal-hyprland
             xdg-desktop-portal-gtk
           ];
       };
