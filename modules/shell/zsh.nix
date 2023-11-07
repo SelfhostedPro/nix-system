@@ -31,6 +31,7 @@
           waybarr = "pkill -SIGUSR2 waybar";
           nexplorer = "noglob nix repl ~/system/#nixosConfigurations.base";
           aterraform = "aws-vault exec devops -- terraform";
+          skillall = "read \"appname?Appname: \"; ps aux | grep -i $appname | awk '{print $2}' | xargs kill -9";
         };
         prezto = {
           enable = true;

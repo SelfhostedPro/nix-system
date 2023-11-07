@@ -62,8 +62,6 @@
       libva
       libva-utils
       wayland-utils
-      nvitop
-      nvtop-nvidia
     ];
     sessionVariables = {
       # Mostly pulled from https://wiki.hyprland.org/Configuring/Environment-variables/

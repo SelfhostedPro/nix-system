@@ -131,7 +131,7 @@
 
   home-manager.users.${vars.user}.programs.firefox = {
     enable = true;
-    package = pkgs.firefox-wayland;
+    package = pkgs.firefox;
     profiles.${vars.user} = {
       search.engines = {
         "Nix Packages" = {

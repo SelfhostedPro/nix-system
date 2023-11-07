@@ -6,7 +6,7 @@
   vars,
   ...
 }: {
-  imports = [./firefox.nix ./thorium.nix ./thunar.nix ./rgb.nix];
+  imports = [./firefox.nix ./thunar.nix ./rgb.nix];
 
   # Utility Packages
   environment.systemPackages = with pkgs; # (import ./global.nix) ++
@@ -56,7 +56,6 @@
 
       # Apps
       appimage-run # Runs AppImages on NixOS
-      google-chrome # Browser
       kitty # Terminal
       # File Management
       gnome.file-roller # Archive Manager
@@ -65,7 +64,6 @@
       yubioath-flutter
       yubikey-personalization-gui
       # Work Browser
-      google-chrome
 
       unstable.rambox
 
@@ -79,10 +77,12 @@
       # Conferencing
       zoom-us
       # Testing out browsers
-      opera
-      microsoft-edge-beta
-      brave
-      w3m
+      google-chrome
+      thorium
+
+      firefox-wayland
+      
+      shared-mime-info
     ];
 
   nixpkgs.overlays = [
@@ -105,17 +105,6 @@
   };
 
   home-manager.users.${vars.user} = {
-    # Default Applications by filetype.
-    xdg = {
-      mime.enable = true;
-      mimeApps = {
-        enable = true;
-        defaultApplications = {
-          "x-scheme-handler/https" = "firefox.desktop";
-          "x-scheme-handler/http" = "firefox.desktop";
-        };
-      };
-    };
     programs = {
       git.enable = true;
       kitty = {

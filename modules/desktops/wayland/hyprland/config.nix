@@ -11,6 +11,9 @@ with lib; {
     environment.systemPackages = with pkgs; [
       inputs.hyprland.hyprland-protocols
     ];
+
+    programs.xwayland.enable = true;
+
     home-manager.users.${vars.user} = {
       pkgs,
       inputs,
@@ -23,15 +26,21 @@ with lib; {
           enableXWayland = true;
           enableNvidiaPatches = true;
         };
+        xwayland.enable = true;
+
         extraConfig = ''
            exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
            # See https://wiki.hyprland.org/Configuring/Monitors/
-           monitor=,preferred,auto,auto
-           exec-once = eval $(gnome-keyring-daemon --start --components=secrets)
+           monitor=DP-3,2560x1440@143.97301,1920x0,1,bitdepth,10
+           monitor=HDMI-A-1,1920x1080@119.98200,0x0,1
+           # Set default monitor
+           xrandr --output DP-3 --primary
            # Network manager applet
            exec-once = nm-applet --indicator & wl-clipboard & waybar -c ~/.config/waybar/config
-           # Execute your favorite apps at launch
-           exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.config/resources/nixpapers/dracula.png & firefox & slack
+           # Wallpaper config
+           exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.config/resources/nixpapers/dracula.png
+           # StartUp Applications
+           exec-once = firefox & slack
 
 
            # Some default env vars.
@@ -41,16 +50,18 @@ with lib; {
            env = XDG_SESSION_DESKTOP,Hyprland
            env = XDG_SESSION_TYPE,wayland
            env = MOZ_ENABLE_WAYLAND,1
+           env = MOZ_DBUS_REMOTE,1
            env = SDL_VIDEODRIVER,wayland
            # NixOS Chromium Flags
-          env = NIXOS_OZONE_WL,1
-           env = MOZ_ENABLE_WAYLAND,1
+           env = NIXOS_OZONE_WL,1
            env = EGL_PLATFORM,wayland
            env = NVD_BACKEND,egl
            env = WLR_NO_HARDWARE_CURSORS,1
            env = WLR_BACKEND,"drm,wayland,libinput,headless"
            env = WLR_RENDERER,vulkan
            env = WLR_RENDER_DRM_DEVICE,"/dev/dri/renderD128"
+
+           env = HYPRLAND_LOG_WLR,1
 
            # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
            input {
@@ -59,7 +70,7 @@ with lib; {
                kb_model =
                kb_options =
                kb_rules =
-               follow_mouse = 1
+               follow_mouse = 0
                touchpad {
                    natural_scroll = no
                }
@@ -129,24 +140,46 @@ with lib; {
            $altmod = SUPER_SHIFT
            $altaltmod = SUPER_CTRL
 
-           # Launcher Shortcuts
+           # Window Rules
+           windowrule = float, nm-connection-editor|pavucontrol|Rofi
+           windowrule = workspace special:discord silent, Electron
+           windowrulev2 = workspace special:steam, class:^(steam)$, title:^(Sign in to Steam)$
+           windowrulev2 = workspace special:steam, class:^(steam)$, title:^(Steam)$
+
+           # for xwaylandvideobridge
+           windowrulev2 = opacity 0.0 override 0.0 override, class:^(xwaylandvideobridge)$
+           windowrulev2 = noanim, class:^(xwaylandvideobridge)$
+           windowrulev2 = nofocus, class:^(xwaylandvideobridge)$
+           windowrulev2 = noinitialfocus, class:^(xwaylandvideobridge)$
+
+           ### Workspace Rules
+           workspace = special:steam, on-created-empty:steam
+           workspace = special:discord, on-created-empty:discord
+           
+           ### Launcher Shortcuts
            bind = $mod, T, exec, kitty
            bind = $mod, k, killactive,
            bind = $mod, R, exec, rofi -show drun -show-icons
+           bind = $mod, b, exec, firefox
            bind = $altmod, R, exec, rofi -show run -show-icons
-           bind = $mod, V, togglefloating,
-           bind = $altmod, V, fullscreen,
            bind = $mod, L, exec, loginctl lock-session $XDG_SESSION_ID
            bind = $altmod, P, exec, grimblast copy area
 
-           # workspaces
+           ### Window Shortcuts
+           bind = $mod, V, togglefloating,
+           bind = $altmod, V, fullscreen,
+           bind = $mod, Tab_L, cyclenext,
+          
+           # move windows with $altmod and an arrow key
+           # move focus with $mod and an arrow key
+           ${lib.strings.concatMapStrings (x: 
+            ''
+              bind = $mod, ${x}, movefocus, ${ builtins.substring 0 1 x}
+              bind = $altmod, ${x}, movewindow, ${ builtins.substring 0 1 x}
+            ''
+           ) ["left" "right" "up" "down"] }
 
-           # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
-           bind = $altmod, left, movewindow, l
-           bind = $altmod, right, movewindow, r
-           bind = $altmod, up, movewindow, u
-           bind = $altmod, down, movewindow, d
-
+           ### Workspace Shortcuts:
            # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
            bind = $altaltmod, left, workspace, m-1
            bind = $altaltmod, right, workspace, m+1
