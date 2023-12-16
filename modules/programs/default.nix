@@ -6,7 +6,7 @@
   vars,
   ...
 }: {
-  imports = [./firefox.nix ./thunar.nix ./rgb.nix];
+  imports = [./firefox.nix ./thunar.nix ./rgb.nix ./music.nix];
 
   # Utility Packages
   environment.systemPackages = with pkgs; # (import ./global.nix) ++

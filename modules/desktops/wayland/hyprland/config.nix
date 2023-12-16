@@ -22,10 +22,8 @@ with lib; {
       imports = [inputs.hyprland.homeManagerModules.default];
       wayland.windowManager.hyprland = {
         enable = true;
-        package = pkgs.inputs.hyprland.hyprland.override {
-          enableXWayland = true;
-          enableNvidiaPatches = true;
-        };
+        package = pkgs.inputs.hyprland.hyprland;
+        enableNvidiaPatches = true;
         xwayland.enable = true;
 
         extraConfig = ''
@@ -34,14 +32,17 @@ with lib; {
            monitor=DP-3,2560x1440@143.97301,1920x0,1,bitdepth,10
            monitor=HDMI-A-1,1920x1080@119.98200,0x0,1
            # Set default monitor
-           xrandr --output DP-3 --primary
+           exec-once = xrandr --output DP-3 --primary --right-of HDMI-A-1
            # Network manager applet
            exec-once = nm-applet --indicator & wl-clipboard & waybar -c ~/.config/waybar/config
            # Wallpaper config
            exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.config/resources/nixpapers/dracula.png
            # StartUp Applications
-           exec-once = firefox & slack
-
+           exec-once = [workspace 4 silent] sleep 1 && codium /home/${vars.user}/system/
+           exec-once = [workspace 4 silent] sleep 1 && firefox
+           exec-once = [workspace 3 silent] sleep 1 && flatpak run com.spotify.Client --single-instance
+           exec-once = [workspace 1 silent] sleep 1 && flatpak run com.slack.Slack
+           exec-once = [workspace 1 silent] sleep 1 && flatpak run com.discordapp.Discord
 
            # Some default env vars.
            env = XCURSOR_SIZE,24
@@ -142,9 +143,10 @@ with lib; {
 
            # Window Rules
            windowrule = float, nm-connection-editor|pavucontrol|Rofi
-           windowrule = workspace special:discord silent, Electron
-           windowrulev2 = workspace special:steam, class:^(steam)$, title:^(Sign in to Steam)$
-           windowrulev2 = workspace special:steam, class:^(steam)$, title:^(Steam)$
+           #windowrule = workspace special:work silent, Electron
+
+           
+          
 
            # for xwaylandvideobridge
            windowrulev2 = opacity 0.0 override 0.0 override, class:^(xwaylandvideobridge)$
@@ -152,9 +154,28 @@ with lib; {
            windowrulev2 = nofocus, class:^(xwaylandvideobridge)$
            windowrulev2 = noinitialfocus, class:^(xwaylandvideobridge)$
 
-           ### Workspace Rules
-           workspace = special:steam, on-created-empty:steam
-           workspace = special:discord, on-created-empty:discord
+           ### Persistent Workspace Rules
+           ## secondary
+           # messaging
+           workspace = 1,persistent:true,default:true,monitor:HDMI-A-1
+           windowrule = workspace 1 silent, title:^(Slack)$
+           windowrule = workspace 1 silent, title:(.*)(- Discord)$
+
+           workspace = 2,persistent:true,monitor:HDMI-A-1
+
+          
+           # spotify
+           workspace = 3,persistent:true,monitor:HDMI-A-1
+           windowrule = workspace 3 silent, title:^(Spotify)$
+
+           # main
+           workspace = 4,persistent:true,default:true,monitor:DP-3
+
+           # base firefox
+           workspace = 5,persistent:true,monitor:DP-3
+
+           workspace = 6,persistent:true,monitor:DP-3
+
            
            ### Launcher Shortcuts
            bind = $mod, T, exec, kitty
