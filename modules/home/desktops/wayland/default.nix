@@ -1,0 +1,6 @@
+[
+  ./hyprland
+  ./rofi
+  ./swaylock
+  ./waybar
+]

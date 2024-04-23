@@ -4,11 +4,17 @@
   lib,
   vars,
   ...
-}: {
+}: let
+  defaultImports = [
+    ../../modules/system/defaults
+  ];
+in {
   base = lib.nixosSystem {
     specialArgs = {inherit inputs outputs vars;};
-    modules = [
-      ./desktop # Base Desktop Configuration
-    ];
+    modules =
+      defaultImports
+      ++ [
+        ./desktop
+      ];
   };
 }

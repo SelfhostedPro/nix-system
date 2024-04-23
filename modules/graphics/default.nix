@@ -1,4 +1,0 @@
-[
-  ./nvidia.nix
-  ./gstreamer.nix
-]

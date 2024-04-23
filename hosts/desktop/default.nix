@@ -3,20 +3,15 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ../../modules/work ../../modules/security] ++ import ../../modules/graphics;
-
-  desktop.environments = [
-    "hyprland"
-    "gnome"
-    # "gamescope" WiP, doesn't boot into DE
-    # "plasma" Disabled for testing.
+  imports = [
+    ../common
+    ../modules/system/desktops
+    ../modules/system/development
   ];
 
-  # desktop = {
-  #   hyprland.enable = true;
-  #   nvidia.enable = true;
-  # };
-
+  config = {
+    desktop.environments = ["hyprland"];
+  };
   boot = {
     loader = {
       systemd-boot = {
@@ -31,6 +26,7 @@
   fonts.packages = with pkgs; [
     nerdfonts
   ];
+
   environment.systemPackages = with pkgs; [
     blueman
     bluez
@@ -38,7 +34,6 @@
     linuxKernel.packages.linux_6_6.xone
     zenstates
   ];
-
   services = {
     blueman.enable = true;
   };
