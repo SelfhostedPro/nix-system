@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ../../modules/work] ++ import ../../modules/graphics;
+  imports = [../common ./hardware-configuration.nix ../../modules/virtualisation ../../modules/work ../../modules/security] ++ import ../../modules/graphics;
 
   desktop.environments = [
     "hyprland"
@@ -25,7 +25,7 @@
       efi.canTouchEfiVariables = true;
       timeout = 2;
     };
-    kernelPackages = pkgs.linuxPackages_6_5;
+    kernelPackages = pkgs.linuxPackages_6_6;
   };
 
   fonts.packages = with pkgs; [
@@ -35,7 +35,7 @@
     blueman
     bluez
     xboxdrv
-    linuxKernel.packages.linux_6_5.xone
+    linuxKernel.packages.linux_6_6.xone
     zenstates
   ];
 

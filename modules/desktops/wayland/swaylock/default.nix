@@ -51,7 +51,7 @@ in {
           #   resumeCommand = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/hyprctl dispatch dpms on";
           # }
           {
-            timeout = 300;
+            timeout = 1800;
             command = "${swaylockcmd}/bin/swaylockcmd";
           }
           # {

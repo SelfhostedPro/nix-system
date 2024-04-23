@@ -42,7 +42,8 @@
     };
     hyprland = {
       # Official Hyprland Flake
-      url = "github:hyprwm/Hyprland"; # Requires "hyprland.nixosModules.default" to be added the host modules
+      url = "github:hyprwm/Hyprland/fe7b748eb668136dd0558b7c8279bfcd7ab4d759";
+      # url = "github:hyprwm/Hyprland"; # Requires "hyprland.nixosModules.default" to be added the host modules
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     sops-nix.url = "github:Mic92/sops-nix";
