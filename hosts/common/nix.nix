@@ -18,6 +18,7 @@
       experimental-features = "nix-command flakes repl-flake";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+      cores = 0; # Use all available cores
     };
     gc = {
       # Garbage Collection

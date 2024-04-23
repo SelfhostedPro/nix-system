@@ -26,6 +26,8 @@ with lib; {
         xwayland.enable = true;
 
         extraConfig = ''
+           ### STARTUP CONFIGURATION - start
+           
            exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
            # See https://wiki.hyprland.org/Configuring/Monitors/
            monitor=DP-3,2560x1440@143.97301,1920x0,1,bitdepth,10
@@ -38,10 +40,14 @@ with lib; {
            exec-once = ${pkgs.swaybg}/bin/swaybg -i ~/.config/resources/nixpapers/dracula.png
            # StartUp Applications
            exec-once = [workspace 4 silent] sleep 1 && codium /home/${vars.user}/system/
-           exec-once = [workspace 4 silent] sleep 1 && firefox
+           exec-once = [workspace 5 silent] sleep 1 && firefox
            exec-once = [workspace 3 silent] sleep 1 && flatpak run com.spotify.Client --single-instance
            exec-once = [workspace 1 silent] sleep 1 && flatpak run com.slack.Slack
            exec-once = [workspace 1 silent] sleep 1 && flatpak run com.discordapp.Discord
+           
+           ### STARTUP CONFIGURATION - end
+
+           ### ENVIRONMENT CONFIGURATION - start
 
            # Some default env vars.
            env = XCURSOR_SIZE,24
@@ -60,8 +66,9 @@ with lib; {
            env = WLR_BACKEND,"drm,wayland,libinput,headless"
            env = WLR_RENDERER,vulkan
            env = WLR_RENDER_DRM_DEVICE,"/dev/dri/renderD128"
-
            env = HYPRLAND_LOG_WLR,1
+           
+           ### ENVIRONMENT CONFIGURATION - end
 
            # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
            input {
@@ -132,13 +139,14 @@ with lib; {
 
            # Example per-device config
            # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-           device:epic-mouse-v1 {
-               sensitivity = -0.5
-           }
+           #device:epic-mouse-v1 {
+           #    sensitivity = -0.5
+           #}
 
            $mod = SUPER
-           $altmod = SUPER_SHIFT
-           $altaltmod = SUPER_CTRL
+           $shiftmod = SUPER_SHIFT
+           $ctrlmod = SUPER_CTRL
+           $altmod = SUPER_ALT
 
            # Window Rules
            windowrule = float, nm-connection-editor|pavucontrol|Rofi
@@ -195,14 +203,17 @@ with lib; {
            ${lib.strings.concatMapStrings (x: 
             ''
               bind = $mod, ${x}, movefocus, ${ builtins.substring 0 1 x}
-              bind = $altmod, ${x}, movewindow, ${ builtins.substring 0 1 x}
+              bind = $shiftmod, ${x}, movewindow, ${ builtins.substring 0 1 x}
             ''
            ) ["left" "right" "up" "down"] }
 
            ### Workspace Shortcuts:
-           # binds $mod + [shift +] {left, right} to [move] the application one workspace in that direction
-           bind = $altaltmod, left, workspace, m-1
-           bind = $altaltmod, right, workspace, m+1
+           # binds $mod + [shift +] {left, right} to [move] the application in that direction (can move workspaces)
+           bind = $ctrlmod, left, workspace, m-1
+           bind = $ctrlmod, right, workspace, m+1
+           bind = $altmod, left, workspace, -1
+           bind = $altmod, right, workspace, +1
+           
 
            # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
            ${builtins.concatStringsSep "" (builtins.genList (
@@ -213,7 +224,8 @@ with lib; {
                   builtins.toString (x + 1 - (c * 10));
               in ''
                 bind = $mod, ${ws}, workspace, ${toString (x + 1)}
-                bind = $mod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $shiftmod, ${ws}, movetoworkspace, ${toString (x + 1)}
+                bind = $ctrlmod, ${ws}, movetoworkspacesilent, ${toString (x + 1)}
               ''
             )
             10)}

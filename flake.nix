@@ -11,17 +11,21 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Nix Darwin
     darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ISO Creation
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nur = {
       url = "github:nix-community/NUR";
-    };
-    emacs-overlay = {
-      # Emacs Overlays
-      url = "github:nix-community/emacs-overlay";
-      flake = false;
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
@@ -34,19 +38,12 @@
       url = "github:guibou/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    doom-emacs = {
-      # Nix-Community Doom Emacs
-      url = "github:nix-community/nix-doom-emacs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.emacs-overlay.follows = "emacs-overlay";
-    };
     hyprland = {
       # Official Hyprland Flake
       url = "github:hyprwm/Hyprland/fe7b748eb668136dd0558b7c8279bfcd7ab4d759";
       # url = "github:hyprwm/Hyprland"; # Requires "hyprland.nixosModules.default" to be added the host modules
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
     plasma-manager = {
       # KDE Plasma User Settings Generator
       url = "github:pjones/plasma-manager"; # Requires "inputs.plasma-manager.homeManagerModules.plasma-manager" to be added to the home-manager.users.${user}.imports
@@ -62,10 +59,10 @@
     darwin,
     nur,
     nixgl,
-    doom-emacs,
     hyprland,
     plasma-manager,
     nix-vscode-extensions,
+    nixos-generators,
     ...
   }: let
     inherit (self) outputs;
