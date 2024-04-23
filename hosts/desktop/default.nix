@@ -28,7 +28,7 @@
     kernelPackages = pkgs.linuxPackages_6_5;
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     nerdfonts
   ];
   environment.systemPackages = with pkgs; [

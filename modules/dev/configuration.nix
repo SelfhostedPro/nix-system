@@ -8,10 +8,12 @@
   marketplace-extensions = with pkgs.vscode-marketplace; [
     hediet.vscode-drawio
     vue.volar
+    nuxtr.nuxtr-vscode
+    oven.bun-vscode
     # evilz.vscode-reveal
     # antfu.slidev
-    eamodio.gitlens
-    astro-build.astro-vscode
+    # eamodio.gitlens
+    # astro-build.astro-vscode
     github.copilot
   ];
 in {
@@ -28,10 +30,11 @@ in {
       # Formatters
       # nixpkgs-fmt
       alejandra
-      deploy-rs
+      # deploy-rs
       # Gui for Keychain
       gnome.seahorse
       direnv
+      bun
       nodePackages.pnpm
     ];
     # vs-code-server fixes

@@ -23,7 +23,6 @@ with lib; {
       wayland.windowManager.hyprland = {
         enable = true;
         package = pkgs.inputs.hyprland.hyprland;
-        enableNvidiaPatches = true;
         xwayland.enable = true;
 
         extraConfig = ''

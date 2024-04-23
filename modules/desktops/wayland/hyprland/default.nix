@@ -31,10 +31,7 @@ with lib; {
     programs = {
       hyprland = {
         enable = true;
-        package = inputs.hyprland.packages.${pkgs.system}.hyprland.override {
-          enableXWayland = true;
-          enableNvidiaPatches = true;
-        };
+        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       };
     };
     environment = {
@@ -55,7 +52,6 @@ with lib; {
         unstable.grimblast
         # grim # Grab Images
         # slurp # Region Selector
-        hyprland-share-picker
         wayland-protocols
         libinput
         libnotify

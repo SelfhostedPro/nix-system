@@ -30,7 +30,7 @@
   users.users.${vars.user} = {
     # System User
     isNormalUser = true;
-    extraGroups = ["wheel" "video" "input" "audio" "camera" "networkmanager" "lp" "kvm" "libvirtd"];
+    extraGroups = ["wheel" "video" "input" "audio" "camera" "networkmanager" "lp" "kvm" "libvirtd" "docker"];
   };
   users.groups.input.gid = 174;
 

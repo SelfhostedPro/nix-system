@@ -21,7 +21,7 @@
       zsh = {
         enable = true;
         enableAutosuggestions = true;
-        enableSyntaxHighlighting = true;
+        syntaxHighlighting.enable = true;
         enableCompletion = true;
         shellAliases = {
           update = "noglob sudo nixos-rebuild build --flake ~/system/#base && ${pkgs.nvd}/bin/nvd diff /run/current-system ./result";
