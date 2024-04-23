@@ -211,8 +211,8 @@ with lib; {
            # binds $mod + [shift +] {left, right} to [move] the application in that direction (can move workspaces)
            bind = $ctrlmod, left, workspace, m-1
            bind = $ctrlmod, right, workspace, m+1
-           bind = $altmod, left, workspace, -1
-           bind = $altmod, right, workspace, +1
+           bind = $altmod, left, movetoworkspace, -1
+           bind = $altmod, right, movetoworkspace, +1
            
 
            # binds $mod + [shift +] {1..10} to [move to] workspace {1..10}
