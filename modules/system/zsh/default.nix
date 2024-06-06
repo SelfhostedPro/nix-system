@@ -28,7 +28,7 @@
           fupdate = "noglob nix flake update ~/.system/";
           cleanboot = "sudo nix-collect-garbage --delete-older-than 5d && nix-env -p /nix/var/nix/profiles/system --delete-generations +2";
           waybarr = "pkill -SIGUSR2 waybar";
-          nexplorer = "noglob nix repl ~/.system/#base";
+          nexplorer = "noglob nix --extra-experimental-features repl-flake repl ~/.system/#base";
           skillall = "read \"appname?Appname: \"; ps aux | grep -i $appname | awk '{print $2}' | xargs kill -9";
         };
         prezto = {

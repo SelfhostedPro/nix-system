@@ -18,7 +18,7 @@
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
 
-      max-jobs = 4; # Allow more jobs to be used
+      max-jobs = 16; # Allow more jobs to be used
       cores = 0; # Use all available cores
     };
     gc = {
