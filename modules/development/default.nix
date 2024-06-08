@@ -12,6 +12,7 @@
     mqttx
     kubectl
     awscli2
+    terraform
   ];
   home-manager.users.${vars.user} =
     { pkgs, ... }: {
