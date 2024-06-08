@@ -20,6 +20,8 @@
 {
   imports = [ ./firefox.nix ];
 
+  services.flatpak.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -34,7 +36,12 @@
     alacritty
     alacritty-theme
     mission-center
-    orca-slicer-beta
+    appimage-run
+    orca-slicer
+    # orca-slicer-beta
+    talosctl
+    rpi-imager
+    nmapsi4
   ]; 
   # ++ [ orca-beta ];
 

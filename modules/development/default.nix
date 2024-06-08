@@ -11,6 +11,7 @@
     git
     mqttx
     kubectl
+    awscli2
   ];
   home-manager.users.${vars.user} =
     { pkgs, ... }: {
