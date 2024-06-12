@@ -37,8 +37,8 @@
     alacritty-theme
     mission-center
     appimage-run
-    # orca-slicer
-    orca-slicer-beta
+     orca-slicer
+    #orca-slicer-beta
     talosctl
     rpi-imager
     nmapsi4

@@ -7,7 +7,7 @@ let
     cmakeFlags = old.cmakeFlags ++ [
       "-DBUILD_opencv_world=ON"
     ];
-    patches = old.patches ++ [ "./opencv.patch" ];
+    patches = old.patches ++ [ ./opencv.patch ];
   });
 in
 pkgs.orca-slicer.overrideAttrs (
@@ -26,6 +26,7 @@ pkgs.orca-slicer.overrideAttrs (
       ./0001-not-for-upstream-CMakeLists-Link-against-webkit2gtk-.patch
       # Fix build with cgal-5.6.1+
       ./meshboolean-const.patch
+      # ./opencv.patch
     ];
 
     # Disable compiler warnings that clutter the build log.
@@ -37,6 +38,7 @@ pkgs.orca-slicer.overrideAttrs (
       "-DSLIC3R_STATIC=0"
       "-DSLIC3R_FHS=1"
       "-DSLIC3R_GTK=3"
+      "-DBUILD_opencv_world=ON"
 
       # BambuStudio-specific
       "-DBBL_RELEASE_TO_PUBLIC=1"
@@ -47,6 +49,7 @@ pkgs.orca-slicer.overrideAttrs (
     ];
 
     buildInputs = [
+      # pkgs.opencv
       opencv
     ] ++ previousAttrs.buildInputs;
   }
